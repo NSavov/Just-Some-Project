@@ -81,6 +81,11 @@ namespace StudentRanking.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     WebSecurity.Login(model.UserName, model.Password);
+
+                    var roles = (SimpleRoleProvider)Roles.Provider;
+                    roles.CreateRole("admin");
+                    roles.AddUsersToRoles(new string[] { model.UserName }, new string[] { "admin" });
+
                     return RedirectToAction("Index", "Home");
                 }
                 catch (MembershipCreateUserException e)

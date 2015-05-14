@@ -188,6 +188,20 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Exam.cs" />
+    <Compile Include="DataAccess\ExamContext.cs" />
+    <Compile Include="Models\Faculty.cs" />
+    <Compile Include="DataAccess\FacultyContext.cs" />
+    <Compile Include="Models\FacultyRankList.cs" />
+    <Compile Include="DataAccess\FacultyRankListContext.cs" />
+    <Compile Include="Models\Formula.cs" />
+    <Compile Include="DataAccess\FormulaContext.cs" />
+    <Compile Include="Models\Preference.cs" />
+    <Compile Include="DataAccess\PreferenceContext.cs" />
+    <Compile Include="Models\ProgrammeRules.cs" />
+    <Compile Include="DataAccess\ProgrammeRulesContext.cs" />
+    <Compile Include="Models\Student.cs" />
+    <Compile Include="DataAccess\StudentContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

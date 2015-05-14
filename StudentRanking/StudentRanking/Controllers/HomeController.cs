@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebMatrix.WebData;
+using System.Web.Security;
 
 namespace StudentRanking.Controllers
 {
@@ -19,9 +21,13 @@ namespace StudentRanking.Controllers
         {
             ViewBag.Message = "Your app description page.";
 
+           
+            
+
             return View();
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
