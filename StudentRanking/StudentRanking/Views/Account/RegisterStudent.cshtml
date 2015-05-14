@@ -1,0 +1,60 @@
+﻿@model StudentRanking.Models.RegisterStudentModel
+@{
+    ViewBag.Title = "Register Student";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <h2>Create a new account.</h2>
+</hgroup>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <fieldset>
+        <legend>Registration Form</legend>
+        <ol>
+            <li>
+                @Html.LabelFor(m => m.UserName)
+                @Html.TextBoxFor(m => m.UserName)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Password)
+                @Html.PasswordFor(m => m.Password)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.FirstName)
+                @Html.TextBoxFor(m => m.FirstName)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.LastName)
+                @Html.TextBoxFor(m => m.LastName)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.EGN)
+                @Html.TextBoxFor(m => m.EGN)
+            </li>
+
+            @{
+                List<SelectListItem> genderList = new List<SelectListItem>();
+                genderList.Add(new SelectListItem { Text = "Male", Value = "true"});
+                genderList.Add(new SelectListItem { Text = "Female", Value = "false"});
+            }
+
+            <li>
+                @Html.LabelFor(m => m.Gender)
+                @Html.DropDownListFor(m => m.Gender, genderList, "-- Select Gender --")
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Email)
+                @Html.TextBoxFor(m => m.Email)
+            </li>
+        </ol>
+        <input type="submit" value="Register" />
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -58,21 +58,83 @@ namespace StudentRanking.Controllers
         }
 
         //
-        // GET: /Account/Register
+        // GET: /Account/RegisterStudent
 
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult RegisterStudent()
         {
             return View();
         }
 
         //
-        // POST: /Account/Register
+        // POST: /Account/RegisterStudent
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(RegisterModel model)
+        public ActionResult RegisterStudent(RegisterStudentModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Attempt to register the user
+                try
+                {
+                    StudentContext context = new StudentContext();
+
+                    Student student = new Student()
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        EGN = model.EGN,
+                        Email = model.Email,
+                        Gender = model.Gender,
+                        State = false
+                    };
+
+                    context.Students.Add(student);
+                    context.SaveChanges();
+
+                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+                    WebSecurity.Login(model.UserName, model.Password);
+
+                    var roles = (SimpleRoleProvider)Roles.Provider;
+
+                    if (!roles.RoleExists("admin"))
+                        roles.CreateRole("admin");
+
+                    if (!roles.RoleExists("student"))
+                        roles.CreateRole("student");
+
+                    roles.AddUsersToRoles(new string[] { model.UserName }, new string[] { "student" });
+
+                    return RedirectToAction("Index", "Home");
+                }
+                catch (MembershipCreateUserException e)
+                {
+                    ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        //
+        // GET: /Account/RegisterAdmin
+
+        [AllowAnonymous]
+        public ActionResult RegisterAdmin()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/RegisterAdmin
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegisterAdmin(RegisterModel model)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +145,13 @@ namespace StudentRanking.Controllers
                     WebSecurity.Login(model.UserName, model.Password);
 
                     var roles = (SimpleRoleProvider)Roles.Provider;
-                    roles.CreateRole("admin");
+
+                    if (!roles.RoleExists("admin"))
+                        roles.CreateRole("admin");
+
+                    if (!roles.RoleExists("student"))
+                        roles.CreateRole("student");
+
                     roles.AddUsersToRoles(new string[] { model.UserName }, new string[] { "admin" });
 
                     return RedirectToAction("Index", "Home");

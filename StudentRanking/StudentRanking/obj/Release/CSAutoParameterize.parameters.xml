@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="DefaultConnection-Web.config Connection String" description="DefaultConnection Connection String used in web.config by the application to access the database." defaultValue="Data Source=(LocalDb)\v11.0;Initial Catalog=aspnet-StudentRanking-20150510184220;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|\aspnet-StudentRanking-20150510184220.mdf" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\Work\\C\#\\StudentRanking\\Student-Ranking-System\\StudentRanking\\StudentRanking\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+  <parameter name="StudentRanking.Models.ExamContext-Web.config Connection String" description="StudentRanking.Models.ExamContext Connection String used in web.config by the application to access the database." defaultValue="StudentRanking.Models.ExamContext_ConnectionString" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\Work\\C\#\\StudentRanking\\Student-Ranking-System\\StudentRanking\\StudentRanking\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='StudentRanking.Models.ExamContext']/@connectionString" />
+  </parameter>
+  <parameter name="StudentRanking.Models.FacultyContext-Web.config Connection String" description="StudentRanking.Models.FacultyContext Connection String used in web.config by the application to access the database." defaultValue="StudentRanking.Models.FacultyContext_ConnectionString" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\Work\\C\#\\StudentRanking\\Student-Ranking-System\\StudentRanking\\StudentRanking\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='StudentRanking.Models.FacultyContext']/@connectionString" />
+  </parameter>
+  <parameter name="StudentRanking.Models.FormulaContext-Web.config Connection String" description="StudentRanking.Models.FormulaContext Connection String used in web.config by the application to access the database." defaultValue="StudentRanking.Models.FormulaContext_ConnectionString" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\Work\\C\#\\StudentRanking\\Student-Ranking-System\\StudentRanking\\StudentRanking\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='StudentRanking.Models.FormulaContext']/@connectionString" />
+  </parameter>
+  <parameter name="StudentRanking.Models.PreferenceContext-Web.config Connection String" description="StudentRanking.Models.PreferenceContext Connection String used in web.config by the application to access the database." defaultValue="StudentRanking.Models.PreferenceContext_ConnectionString" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\Work\\C\#\\StudentRanking\\Student-Ranking-System\\StudentRanking\\StudentRanking\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='StudentRanking.Models.PreferenceContext']/@connectionString" />
+  </parameter>
+  <parameter name="StudentRanking.Models.ProgrammeRulesContext-Web.config Connection String" description="StudentRanking.Models.ProgrammeRulesContext Connection String used in web.config by the application to access the database." defaultValue="StudentRanking.Models.ProgrammeRulesContext_ConnectionString" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\Work\\C\#\\StudentRanking\\Student-Ranking-System\\StudentRanking\\StudentRanking\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='StudentRanking.Models.ProgrammeRulesContext']/@connectionString" />
+  </parameter>
+  <parameter name="StudentRanking.Models.StudentContext-Web.config Connection String" description="StudentRanking.Models.StudentContext Connection String used in web.config by the application to access the database." defaultValue="StudentRanking.Models.StudentContext_ConnectionString" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\Work\\C\#\\StudentRanking\\Student-Ranking-System\\StudentRanking\\StudentRanking\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='StudentRanking.Models.StudentContext']/@connectionString" />
+  </parameter>
+</parameters>

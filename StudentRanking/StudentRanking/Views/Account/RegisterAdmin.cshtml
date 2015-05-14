@@ -1,6 +1,8 @@
-﻿@model StudentRanking.Models.RegisterModel
+﻿
+
+@model StudentRanking.Models.RegisterModel
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Register Administrator";
 }
 
 <hgroup class="title">
@@ -8,7 +10,8 @@
     <h2>Create a new account.</h2>
 </hgroup>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
 
