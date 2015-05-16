@@ -77,3 +77,7 @@ D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\b
 D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\bin\zh-Hant\System.Spatial.resources.dll
 D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\obj\Release\StudentRanking.dll
 D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\obj\Release\StudentRanking.pdb
+D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\obj\Release\StudentRanking.csprojResolveAssemblyReference.cache
+D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\obj\Release\StudentRanking.Migrations.InitialCreate.resources
+D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\obj\Release\StudentRanking.Migrations.InitialCreate1.resources
+D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\obj\Release\StudentRanking.csproj.GenerateResource.Cache

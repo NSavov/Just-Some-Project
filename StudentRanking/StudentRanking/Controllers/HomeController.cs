@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebMatrix.WebData;
 using System.Web.Security;
+using StudentRanking.Filters;
 
 namespace StudentRanking.Controllers
 {

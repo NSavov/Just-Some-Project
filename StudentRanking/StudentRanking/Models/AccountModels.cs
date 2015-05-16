@@ -118,7 +118,7 @@ namespace StudentRanking.Models
 
         [Required]
         [Display(Name = "Gender")]
-        public Boolean Gender { get; set; }
+        public bool? Gender { get; set; }
 
     }
 

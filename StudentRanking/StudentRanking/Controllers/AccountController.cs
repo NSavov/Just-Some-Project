@@ -10,6 +10,7 @@ using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using StudentRanking.Filters;
 using StudentRanking.Models;
+using StudentRanking.DataAccess;
 
 namespace StudentRanking.Controllers
 {
@@ -79,7 +80,7 @@ namespace StudentRanking.Controllers
                 // Attempt to register the user
                 try
                 {
-                    StudentContext context = new StudentContext();
+                    RankingContext context = new RankingContext();
 
                     Student student = new Student()
                     {

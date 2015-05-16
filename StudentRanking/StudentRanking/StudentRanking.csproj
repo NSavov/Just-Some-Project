@@ -183,25 +183,28 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="DataAccess\RankingContext.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201505151652266_InitialCreate.cs" />
+    <Compile Include="Migrations\201505151652266_InitialCreate.Designer.cs">
+      <DependentUpon>201505151652266_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505161614427_InitialCreate1.cs" />
+    <Compile Include="Migrations\201505161614427_InitialCreate1.Designer.cs">
+      <DependentUpon>201505161614427_InitialCreate1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Exam.cs" />
-    <Compile Include="DataAccess\ExamContext.cs" />
     <Compile Include="Models\Faculty.cs" />
-    <Compile Include="DataAccess\FacultyContext.cs" />
     <Compile Include="Models\FacultyRankList.cs" />
-    <Compile Include="DataAccess\FacultyRankListContext.cs" />
     <Compile Include="Models\Formula.cs" />
-    <Compile Include="DataAccess\FormulaContext.cs" />
     <Compile Include="Models\Preference.cs" />
-    <Compile Include="DataAccess\PreferenceContext.cs" />
     <Compile Include="Models\ProgrammeRules.cs" />
-    <Compile Include="DataAccess\ProgrammeRulesContext.cs" />
     <Compile Include="Models\Student.cs" />
-    <Compile Include="DataAccess\StudentContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -324,6 +327,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201505151652266_InitialCreate.resx">
+      <DependentUpon>201505151652266_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505161614427_InitialCreate1.resx">
+      <DependentUpon>201505161614427_InitialCreate1.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -14,7 +14,7 @@ namespace StudentRanking.Models
         [Key]
         public String EGN { get; set; }
         public String Email { get; set; }
-        public Boolean Gender { get; set; }
+        public bool? Gender { get; set; }
         public Boolean State{ get; set; }
     }
 }

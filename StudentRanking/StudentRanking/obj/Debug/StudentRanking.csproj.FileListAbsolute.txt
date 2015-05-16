@@ -158,3 +158,5 @@ D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\b
 D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\obj\Debug\StudentRanking.csprojResolveAssemblyReference.cache
 D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\obj\Debug\StudentRanking.dll
 D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\obj\Debug\StudentRanking.pdb
+D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\obj\Debug\StudentRanking.Migrations.InitialCreate.resources
+D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\obj\Debug\StudentRanking.csproj.GenerateResource.Cache
