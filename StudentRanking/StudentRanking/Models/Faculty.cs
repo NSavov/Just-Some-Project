@@ -8,8 +8,10 @@ namespace StudentRanking.Models
 {
     public class Faculty
     {
+        [Required]
         [Key]
         public String ProgrammeName{ get; set; }
+        [Required]
         public String FacultyName{ get; set; }
     }
 }

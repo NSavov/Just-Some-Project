@@ -8,9 +8,14 @@ namespace StudentRanking.Models
 {
     public class ProgrammeRules
     {
+        [Required]
         [Key]
         public String ProgrammeName{ get; set; }
+
+        [Required]
         public ushort MaleCount{ get; set; }
+
+        [Required]
         public ushort FemaleCount{ get; set; }
     }
 }

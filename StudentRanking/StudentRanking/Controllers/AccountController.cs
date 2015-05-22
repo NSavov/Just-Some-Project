@@ -59,68 +59,6 @@ namespace StudentRanking.Controllers
         }
 
         //
-        // GET: /Account/RegisterStudent
-
-        [AllowAnonymous]
-        public ActionResult RegisterStudent()
-        {
-            return View();
-        }
-
-        //
-        // POST: /Account/RegisterStudent
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult RegisterStudent(RegisterStudentModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                // Attempt to register the user
-                try
-                {
-                    RankingContext context = new RankingContext();
-
-                    Student student = new Student()
-                    {
-                        FirstName = model.FirstName,
-                        LastName = model.LastName,
-                        EGN = model.EGN,
-                        Email = model.Email,
-                        Gender = model.Gender,
-                        State = false
-                    };
-
-                    context.Students.Add(student);
-                    context.SaveChanges();
-
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
-                    WebSecurity.Login(model.UserName, model.Password);
-
-                    var roles = (SimpleRoleProvider)Roles.Provider;
-
-                    if (!roles.RoleExists("admin"))
-                        roles.CreateRole("admin");
-
-                    if (!roles.RoleExists("student"))
-                        roles.CreateRole("student");
-
-                    roles.AddUsersToRoles(new string[] { model.UserName }, new string[] { "student" });
-
-                    return RedirectToAction("Index", "Home");
-                }
-                catch (MembershipCreateUserException e)
-                {
-                    ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
-                }
-            }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
-
-        //
         // GET: /Account/RegisterAdmin
 
         [AllowAnonymous]
@@ -135,7 +73,7 @@ namespace StudentRanking.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult RegisterAdmin(RegisterModel model)
+        public ActionResult RegisterAdmin(RegisterAdminModel model)
         {
             if (ModelState.IsValid)
             {

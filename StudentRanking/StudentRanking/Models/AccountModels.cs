@@ -70,7 +70,7 @@ namespace StudentRanking.Models
         public bool RememberMe { get; set; }
     }
 
-    public class RegisterModel
+    public class RegisterAdminModel
     {
         [Required]
         [Display(Name = "User name")]
@@ -99,26 +99,6 @@ namespace StudentRanking.Models
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
-
-        [Required]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-
-        [Required]
-        [Display(Name = "First Name")]
-        public string FirstName { get; set; }
-
-        [Required]
-        [Display(Name = "Last Name")]
-        public string LastName { get; set; }
-
-        [Required]
-        [Display(Name = "EGN")]
-        public string EGN { get; set; }
-
-        [Required]
-        [Display(Name = "Gender")]
-        public bool? Gender { get; set; }
 
     }
 

@@ -13,6 +13,7 @@ namespace StudentRanking.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [Required]
         public String ProgrammeName{ get; set; }
 
         public double C1{ get; set; }

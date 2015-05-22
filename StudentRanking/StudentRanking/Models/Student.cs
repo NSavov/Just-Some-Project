@@ -8,13 +8,22 @@ namespace StudentRanking.Models
 {
     public class Student
     {
+        [Required]
         public String FirstName { get; set; }
+
+        [Required]
         public String LastName { get; set; }
 
+        [Required]
         [Key]
         public String EGN { get; set; }
+
+        [Required]
         public String Email { get; set; }
+
+        [Required]
         public bool? Gender { get; set; }
-        public Boolean State{ get; set; }
+
+        public Boolean IsEnrolled{ get; set; }
     }
 }

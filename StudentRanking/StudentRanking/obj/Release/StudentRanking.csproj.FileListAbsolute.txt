@@ -81,3 +81,10 @@ D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\o
 D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\obj\Release\StudentRanking.Migrations.InitialCreate.resources
 D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\obj\Release\StudentRanking.Migrations.InitialCreate1.resources
 D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\obj\Release\StudentRanking.csproj.GenerateResource.Cache
+D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\obj\Release\StudentRanking.Migrations.UpdateRankingDB.resources
+D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\obj\Release\StudentRanking.Migrations.RollBackRankingDB.resources
+D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\obj\Release\StudentRanking.Migrations.Update2.resources
+D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\obj\Release\StudentRanking.Migrations.Update3.resources
+D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\obj\Release\StudentRanking.Migrations.Update4.resources
+D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\obj\Release\StudentRanking.Migrations.Update5.resources
+D:\Work\C#\StudentRanking\Student-Ranking-System\StudentRanking\StudentRanking\obj\Release\StudentRanking.Migrations.Update6.resources

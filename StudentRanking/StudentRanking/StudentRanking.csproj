@@ -182,8 +182,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\StudentBrowseController.cs" />
     <Compile Include="DataAccess\RankingContext.cs" />
+    <Compile Include="Filters\IndexAttribute.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -196,8 +199,38 @@
     <Compile Include="Migrations\201505161614427_InitialCreate1.Designer.cs">
       <DependentUpon>201505161614427_InitialCreate1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201505191021596_UpdateRankingDB.cs" />
+    <Compile Include="Migrations\201505191021596_UpdateRankingDB.Designer.cs">
+      <DependentUpon>201505191021596_UpdateRankingDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505191035187_RollBackRankingDB.cs" />
+    <Compile Include="Migrations\201505191035187_RollBackRankingDB.Designer.cs">
+      <DependentUpon>201505191035187_RollBackRankingDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505221737419_Update2.cs" />
+    <Compile Include="Migrations\201505221737419_Update2.Designer.cs">
+      <DependentUpon>201505221737419_Update2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505221815332_Update3.cs" />
+    <Compile Include="Migrations\201505221815332_Update3.Designer.cs">
+      <DependentUpon>201505221815332_Update3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505221847125_Update4.cs" />
+    <Compile Include="Migrations\201505221847125_Update4.Designer.cs">
+      <DependentUpon>201505221847125_Update4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505221947350_Update5.cs" />
+    <Compile Include="Migrations\201505221947350_Update5.Designer.cs">
+      <DependentUpon>201505221947350_Update5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505222109340_Update6.cs" />
+    <Compile Include="Migrations\201505222109340_Update6.Designer.cs">
+      <DependentUpon>201505222109340_Update6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration-Users.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\AdminModels.cs" />
     <Compile Include="Models\Exam.cs" />
     <Compile Include="Models\Faculty.cs" />
     <Compile Include="Models\FacultyRankList.cs" />
@@ -321,6 +354,12 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Account\RegisterAdmin.cshtml" />
+    <Content Include="Views\Admin\Menu.cshtml" />
+    <Content Include="Views\StudentBrowse\Index.cshtml" />
+    <Content Include="Views\StudentBrowse\Details.cshtml" />
+    <Content Include="Views\StudentBrowse\Create.cshtml" />
+    <Content Include="Views\StudentBrowse\Edit.cshtml" />
+    <Content Include="Views\StudentBrowse\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -334,6 +373,27 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201505161614427_InitialCreate1.resx">
       <DependentUpon>201505161614427_InitialCreate1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505191021596_UpdateRankingDB.resx">
+      <DependentUpon>201505191021596_UpdateRankingDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505191035187_RollBackRankingDB.resx">
+      <DependentUpon>201505191035187_RollBackRankingDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505221737419_Update2.resx">
+      <DependentUpon>201505221737419_Update2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505221815332_Update3.resx">
+      <DependentUpon>201505221815332_Update3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505221847125_Update4.resx">
+      <DependentUpon>201505221847125_Update4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505221947350_Update5.resx">
+      <DependentUpon>201505221947350_Update5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505222109340_Update6.resx">
+      <DependentUpon>201505222109340_Update6.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
