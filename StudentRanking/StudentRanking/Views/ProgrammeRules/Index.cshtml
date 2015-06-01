@@ -1,0 +1,127 @@
+﻿@model IEnumerable<StudentRanking.Models.ProgrammeRules>
+
+@section Scripts
+{
+  <!-- <script src="@Url.Content("~/Scripts/CascadeDropDownList.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.cascadingDropDown.js")"></script>-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#state").prop("disabled", true);
+        $("#country").change(function () {
+            if ($("#country").val() != "Please select") {
+                var options = {};
+                options.url = "/ProgrammeRules/getstates";
+                options.type = "POST";
+                options.data = JSON.stringify({ country: $("#country").val() });
+                options.dataType = "json";
+                options.contentType = "application/json";
+                options.success = function (states) {
+                    $("#state").empty();
+                    for (var i = 0; i < states.length; i++) {
+                        $("#state").append("<option>" + states[i] + "</option>");
+                    }
+                    $("#state").prop("disabled", false);
+                };
+                options.error = function () { alert("Error retrieving states!"); };
+                $.ajax(options);
+            }
+            else {
+                $("#state").empty();
+                $("#state").prop("disabled", true);
+            }
+        });
+    });
+
+    function SubmitClick() {
+        $.ajax({
+            type: 'POST',
+            url: "/ProgrammeRules/index",
+            data: {
+                country: $("#country option:selected").text(),
+                state: $("#state option:selected").text()
+            }
+           
+        });
+    };
+
+    </script>
+    }
+
+    @{
+    ViewBag.Title = "Index";
+    var programmes = ViewBag.Programmes as Dictionary<String, List<String>>;
+    //var faculties__ = programmes.Keys.ToList<string>() as SelectList;
+}
+
+<head>
+<title>Combo</title>
+
+</head>
+<div>Select Country :</div>
+@Html.DropDownList("country", ViewData["countries"] as SelectList, new { @id = "country" })
+<br /><br />
+<div>Select States :</div>
+<select id="state"></select>
+<br /><br />
+<input type="submit" value="Submit" onclick="javascript:SubmitClick()" />
+
+
+        <h2>Index</h2>
+
+        <p>
+        @Html.ActionLink("Create New", "Create")
+        </p>
+        <!--<div>
+        @Html.DropDownList("Departments", new List<SelectListItem>
+
+{
+    new SelectListItem { Text = "IT", Value = "1", Selected=true},
+    new SelectListItem { Text = "HR", Value = "2"},
+    new SelectListItem { Text = "Finance", Value = "3"}
+}, "Select Department")
+        </div>
+        <select id="customerID" name="customerID">
+
+            <option value="ALFKI">Maria Anders</option>
+
+            <option value="ANATR">Ana Trujillo</option>
+
+            <option value="ANTON">Antonio Moreno</option>
+
+        </select>
+
+        <select id="orderID" name="orderID"></select>-->
+
+
+
+        <table>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.MaleCount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FemaleCount)
+                </th>
+                <th></th>
+            </tr>
+
+        @foreach (var item in Model) {
+    <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaleCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FemaleCount)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.ProgrammeName }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.ProgrammeName }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.ProgrammeName })
+                </td>
+            </tr>
+}
+
+        </table>
+
+
+
