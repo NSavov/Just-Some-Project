@@ -17,60 +17,70 @@
     }
 </style>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EGN)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Gender)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsEnrolled)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr >
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <th>
-            @Html.DisplayFor(model => item.EGN)
-        </th>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            <label>@(((bool)item.Gender)?"Male":"Female")</label>
-            <!--Html.DisplayFor(modelItem => ((bool)item.Gender)? "Male" : "Female")-->
-        </td>
-        <td>
-            <label>@(((bool)item.IsEnrolled) ? "Yes" : "No")</label>
-           <!-- Html.DisplayFor(modelItem => item.IsEnrolled)-->
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.EGN }) |
-            @Html.ActionLink("Details", "Details", new { id=item.EGN }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.EGN })
-        </td>
-    </tr>
+<h3>Search by EGN</h3>
+
+
+@using (Html.BeginForm("Details", "StudentBrowse"))
+{
+    @Html.TextBox("id")
+    <input type="submit" value="Search" />
 }
 
-</table>
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+        <table>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EGN)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Gender)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsEnrolled)
+                </th>
+                <th></th>
+            </tr>
+
+        @foreach (var item in Model) {
+    <tr >
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <th>
+                    @Html.DisplayFor(model => item.EGN)
+                </th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    <label>@(((bool)item.Gender)?"Male":"Female")</label>
+                    <!--Html.DisplayFor(modelItem => ((bool)item.Gender)? "Male" : "Female")-->
+                </td>
+                <td>
+                    <label>@(((bool)item.IsEnrolled) ? "Yes" : "No")</label>
+                   <!-- Html.DisplayFor(modelItem => item.IsEnrolled)-->
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.EGN }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.EGN }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.EGN })
+                </td>
+            </tr>
+}
+
+        </table>

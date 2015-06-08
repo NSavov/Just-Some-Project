@@ -19,10 +19,24 @@ namespace StudentRanking.Controllers
         //
         // GET: /StudentBrowse/
 
-        public ActionResult Index()
+        public ActionResult Index(String egn = "")
         {
-            return View(db.Students.ToList());
+            if (egn == "")
+                return View(db.Students.ToList());
+            else
+                return Details(egn);
         }
+
+        //
+        // GET: /StudentBrowse/
+
+        //[HttpPost]
+        //public ActionResult Index(String egn)
+        //{
+
+        //    return Details(egn);
+        //}
+
 
         //
         // GET: /StudentBrowse/Details/5
