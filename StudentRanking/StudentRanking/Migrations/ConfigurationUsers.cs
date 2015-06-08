@@ -9,7 +9,7 @@ namespace StudentRanking.Migrations
     {
         public ConfigurationUsers()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(StudentRanking.Models.UsersContext context)
