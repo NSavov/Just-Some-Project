@@ -1,0 +1,59 @@
+﻿@model IEnumerable<StudentRanking.Models.StudentRankingInformation>
+
+@{
+    ViewBag.Title = "StudentRankingInformation";
+}
+
+<style>
+    table, th, td {
+        border: 0px solid black;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 15px;
+    }
+</style>
+
+<h2>@ViewData["userName"]</h2>
+
+<h2>Приети сте в следните специалности:</h2>
+
+<table>
+    <tr>
+        <th>
+            <label>Номер на желание</label>
+        </th>
+        <th>
+            <label>Факултет</label>
+        </th>
+        <th>
+            <label>Специалност</label>
+        </th>
+        <th>
+            <label>Бал</label>
+        </th>
+        <th></th>
+    </tr>
+
+    @if (Model != null) 
+    { 
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrefNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProgrammeName)
+                </td>
+                <th>
+                    @Html.DisplayFor(model => item.FacultyName)
+                </th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FinalResult)
+                </td>
+            </tr>
+        }
+    }
+</table>
