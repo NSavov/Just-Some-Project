@@ -13,9 +13,9 @@ namespace StudentRanking.Models
         public String ProgrammeName{ get; set; }
 
         [Required]
-        public ushort MaleCount{ get; set; }
+        public int MaleCount{ get; set; }
 
         [Required]
-        public ushort FemaleCount{ get; set; }
+        public int FemaleCount{ get; set; }
     }
 }

@@ -184,6 +184,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProgrammeRulesController.cs" />
     <Compile Include="Controllers\StudentBrowseController.cs" />
     <Compile Include="DataAccess\RankingContext.cs" />
     <Compile Include="Filters\IndexAttribute.cs" />
@@ -271,6 +272,8 @@
     <Content Include="Global.asax" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
+    <Content Include="Scripts\CascadeDropDownList.js" />
+    <Content Include="Scripts\jquery.cascadingDropDown.js" />
     <Content Include="StudentRanking.publish.xml" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -332,6 +335,11 @@
     <Content Include="Views\StudentBrowse\Create.cshtml" />
     <Content Include="Views\StudentBrowse\Edit.cshtml" />
     <Content Include="Views\StudentBrowse\Delete.cshtml" />
+    <Content Include="Views\ProgrammeRules\Index.cshtml" />
+    <Content Include="Views\ProgrammeRules\Details.cshtml" />
+    <Content Include="Views\ProgrammeRules\Create.cshtml" />
+    <Content Include="Views\ProgrammeRules\Edit.cshtml" />
+    <Content Include="Views\ProgrammeRules\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<parameters>
-  <parameter name="DefaultConnection-Web.config Connection String" description="DefaultConnection Connection String used in web.config by the application to access the database." defaultValue="Data Source=SQL5012.Smarterasp.net;Initial Catalog=DB_9C4A16_RankingData;User Id=DB_9C4A16_RankingData_admin;Password=password" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="D:\\Work\\C\#\\StudentRanking\\Student-Ranking-System\\StudentRanking\\StudentRanking\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
-  </parameter>
-  <parameter name="DefaultConnection_DatabasePublish-Web.config Connection String" description="DefaultConnection_DatabasePublish Connection String used in web.config by the application to access the database." defaultValue="DefaultConnection_DatabasePublish.ConnetionString" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="D:\\Work\\C\#\\StudentRanking\\Student-Ranking-System\\StudentRanking\\StudentRanking\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection_DatabasePublish']/@connectionString" />
-  </parameter>
-</parameters>
