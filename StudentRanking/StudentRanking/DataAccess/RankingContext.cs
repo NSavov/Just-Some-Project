@@ -21,7 +21,7 @@ namespace StudentRanking.DataAccess
         public DbSet<Preference> Preferences { get; set; }
         public DbSet<Formula> Formulas { get; set; }
         public DbSet<Faculty> Faculties { get; set; }
-        public Dictionary<String, DbSet<FacultyRankList>> FacultyRankLists { get; set; }
+        public DbSet<FacultyRankList> FacultyRankLists { get; set; }
         protected void OnModelCreating(DbModelBuilder modelBuilder)
         {
             Database.SetInitializer(new IndexInitializer<DbContext>());

@@ -211,6 +211,7 @@
     <Compile Include="Models\Formula.cs" />
     <Compile Include="Models\Preference.cs" />
     <Compile Include="Models\ProgrammeRules.cs" />
+    <Compile Include="Models\Ranker.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudentRankingInformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
