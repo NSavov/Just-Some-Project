@@ -186,6 +186,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProgrammeRulesController.cs" />
     <Compile Include="Controllers\StudentBrowseController.cs" />
+    <Compile Include="Controllers\StudentPreferencesController.cs" />
     <Compile Include="Controllers\StudentRankingInformationController.cs" />
     <Compile Include="DataAccess\RankingContext.cs" />
     <Compile Include="Filters\IndexAttribute.cs" />
@@ -213,6 +214,7 @@
     <Compile Include="Models\ProgrammeRules.cs" />
     <Compile Include="Models\Ranker.cs" />
     <Compile Include="Models\Student.cs" />
+    <Compile Include="Models\StudentPreferences.cs" />
     <Compile Include="Models\StudentRankingInformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -344,6 +346,7 @@
     <Content Include="Views\ProgrammeRules\Edit.cshtml" />
     <Content Include="Views\ProgrammeRules\Delete.cshtml" />
     <Content Include="Views\StudentRankingInformation\Index.cshtml" />
+    <Content Include="Views\StudentPreferences\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
