@@ -211,6 +211,7 @@
     <Compile Include="Models\FacultyRankList.cs" />
     <Compile Include="Models\Formula.cs" />
     <Compile Include="Models\Preference.cs" />
+    <Compile Include="Models\ProgrammeProperties.cs" />
     <Compile Include="Models\ProgrammeRules.cs" />
     <Compile Include="Models\Ranker.cs" />
     <Compile Include="Models\Student.cs" />
@@ -347,6 +348,9 @@
     <Content Include="Views\ProgrammeRules\Delete.cshtml" />
     <Content Include="Views\StudentRankingInformation\Index.cshtml" />
     <Content Include="Views\StudentPreferences\Index.cshtml" />
+    <Content Include="Views\Shared\_StudentPreferencesTable.cshtml" />
+    <Content Include="Views\Shared\_StudentRankingTable.cshtml" />
+    <Content Include="Views\Shared\_ProgrammePropertiesTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -80,11 +80,13 @@ namespace StudentRanking.Controllers
 
             ViewData["faculties"] = faculties;
 
-            StudentPreferences pref = new StudentPreferences { Faculty = "FMI", ProgrammeName = "KN", PrefNumber = 1 };
+            StudentPreferences pref = new StudentPreferences { Faculty = faculty, ProgrammeName = programmeName, PrefNumber = 1 };
             model.Add(pref);
             ModelState.Clear();
             ViewData["result"] = model;
-            return View("Index",model);
+
+            return PartialView("_StudentPreferencesTable", model);
+            //return View("Index",model);
         }
 
 

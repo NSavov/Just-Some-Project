@@ -10,6 +10,6 @@ namespace StudentRanking.Models
         public int PrefNumber { get; set; }
         public String ProgrammeName { get; set; }
         public String FacultyName { get; set; }
-        public int FinalResult { get; set; }
+        public double FinalResult { get; set; }
     }
 }

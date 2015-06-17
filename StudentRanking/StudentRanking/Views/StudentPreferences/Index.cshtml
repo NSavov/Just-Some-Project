@@ -53,6 +53,12 @@
                 data: {
                     faculty: $("#faculty option:selected").text(),
                     programmeName: $("#programmeName option:selected").text()
+                },
+                success: function (data) {
+                    $('#resultTable').html(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
                 }
 
             });
@@ -70,38 +76,42 @@
 <select id="programmeName"></select>
 <input type="submit" value="Submit" onclick="javascript:SubmitClick()"  />
 
-<label>@res.Count</label>
 
+<div id="resultTable">
+    @Html.Partial("_StudentPreferencesTable", Model)
+</div>
 
-<table>
-    <tr>
-        <th>
-            <label>Номер на желание</label>
-        </th>
-        <th>
-            <label>Факултет</label>
-        </th>
-        <th>
-            <label>Специалност</label>
-        </th>
-        <th></th>
-    </tr>
+@*<div id="resultTable">
+    <table>
+        <tr>
+            <th>
+                <label>Номер на желание</label>
+            </th>
+            <th>
+                <label>Факултет</label>
+            </th>
+            <th>
+                <label>Специалност</label>
+            </th>
+            <th></th>
+        </tr>
 
-    @if (res != null)
-    {
-        foreach (var item in res)
+        @if (res != null)
         {
-            <tr>
-                <td>
-                    @item.PrefNumber
-                </td>
-                <td>
-                    @item.Faculty
-                </td>
-                <td>
-                    @item.ProgrammeName
-                </td>
-            </tr>
+            foreach (var item in res)
+            {
+                <tr>
+                    <td>
+                        @item.PrefNumber
+                    </td>
+                    <td>
+                        @item.Faculty
+                    </td>
+                    <td>
+                        @item.ProgrammeName
+                    </td>
+                </tr>
+            }
         }
-    }
-</table>
+    </table>
+</div>*@
