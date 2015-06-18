@@ -21,6 +21,8 @@ namespace StudentRanking.Controllers
 
         public ActionResult Index(String egn = "")
         {
+            Ranker ranker = new Ranker(db);
+            ranker.test();
             if (egn == "")
                 return View(db.Students.ToList());
             else
