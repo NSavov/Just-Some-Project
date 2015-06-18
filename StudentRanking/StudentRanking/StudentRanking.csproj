@@ -183,6 +183,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\ExamController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProgrammeRulesController.cs" />
     <Compile Include="Controllers\StudentBrowseController.cs" />
@@ -351,6 +352,12 @@
     <Content Include="Views\Shared\_StudentPreferencesTable.cshtml" />
     <Content Include="Views\Shared\_StudentRankingTable.cshtml" />
     <Content Include="Views\Shared\_ProgrammePropertiesTable.cshtml" />
+    <Content Include="Views\Exam\Index.cshtml" />
+    <Content Include="Views\Exam\Details.cshtml" />
+    <Content Include="Views\Exam\Create.cshtml" />
+    <Content Include="Views\Exam\Edit.cshtml" />
+    <Content Include="Views\Exam\Delete.cshtml" />
+    <Content Include="Views\Shared\_StudentExamsGrades.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
