@@ -1,24 +1,21 @@
-﻿using System;
+﻿using StudentRanking.Models;
+using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using StudentRanking.Models;
-using StudentRanking.DataAccess;
+
 
 namespace StudentRanking.Controllers
 {
-    public class ProgrammeRulesController : Controller
+    public class StudentPreferencesController : Controller
     {
-        private RankingContext db = new RankingContext();
-        private List<ProgrammeProperties> model = new List<ProgrammeProperties>();
-        private Dictionary<String, List<String>> programmes = new Dictionary<String, List<String>>();
-
         //
-        // GET: /ProgrammeRules/
-        public ProgrammeRulesController() : base()
+        // GET: /StudentPreferences/
+        private Dictionary<String, List<String>> programmes = new Dictionary<String, List<String>>();
+        private List<StudentPreferences> model = new List<StudentPreferences>();
+
+        public StudentPreferencesController()
         {
             List<String> p1 = new List<String>();
             p1.Add("KN");
@@ -43,7 +40,6 @@ namespace StudentRanking.Controllers
             programmes.Add(faculties[1], p2);
             programmes.Add(faculties[2], p3);
 
-
         }
 
         public JsonResult GetProgrammes(string faculty)
@@ -54,36 +50,29 @@ namespace StudentRanking.Controllers
                 return Json(new List<String>());
         }
 
-        [HttpPost]
-        public ActionResult Index(string country,string state)
-        {
-
-
-            List<String> l = programmes.Keys.ToList<string>();
-            l.Insert(0, "Please Select");
-            SelectList faculties = new SelectList(l);
-
-            ViewData["faculties"] = faculties;
-
-            model.Add(new ProgrammeProperties
-            {
-                ProgrammeName = "KN",
-                C1 = 3,
-                C2 = 10,
-                C3 = 9,
-                C4 = 8,
-                X = "math",
-                Y = "Himiq",
-                Z = "Biologiq",
-                W = "Medicina",
-                FemaleCount = 40,
-                MaleCount = 100
-            });
-            return PartialView("_ProgrammePropertiesTable",model);
-        }
-
+        [HttpGet]
         public ActionResult Index()
         {
+            String user = User.Identity.Name;
+            user = "Evgeny";
+            ViewData["userName"] = user;
+
+            List<String> l = programmes.Keys.ToList<string>();
+            l.Insert(0,"Please Select");
+            SelectList faculties = new SelectList(l);
+       
+            ViewData["faculties"] = faculties;
+            ViewData["result"] = model;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Index(String faculty, String programmeName)
+        {
+            String user = User.Identity.Name;
+            user = "Evgeny";
+            ViewData["userName"] = user;
 
             List<String> l = programmes.Keys.ToList<string>();
             l.Insert(0, "Please Select");
@@ -91,15 +80,15 @@ namespace StudentRanking.Controllers
 
             ViewData["faculties"] = faculties;
 
-            
-            return View(model );
+            StudentPreferences pref = new StudentPreferences { Faculty = faculty, ProgrammeName = programmeName, PrefNumber = 1 };
+            model.Add(pref);
+            ModelState.Clear();
+            ViewData["result"] = model;
+
+            return PartialView("_StudentPreferencesTable", model);
+            //return View("Index",model);
         }
 
-        [HttpPost]
-        public void SaveCounts(int maleCount, int femaleCount)
-        {
-            //ako crashnat int-ovete napravi si go sys string parametri
 
-        }
     }
 }

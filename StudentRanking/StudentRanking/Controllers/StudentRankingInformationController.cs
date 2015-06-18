@@ -18,7 +18,10 @@ namespace StudentRanking.Models
             String user = User.Identity.Name;
             user = "Evgeny";
             ViewData["userName"] = user;
-            return View();
+
+            List<StudentRankingInformation> model = new List<StudentRankingInformation>();
+            model.Add(new StudentRankingInformation { FacultyName = "FMI", FinalResult = 22.4, PrefNumber = 1, ProgrammeName = "KN" });
+            return View(model);
         }
 
     }

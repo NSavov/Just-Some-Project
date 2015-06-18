@@ -5,11 +5,13 @@ using System.Web;
 
 namespace StudentRanking.Models
 {
-    public class StudentRankingInformation
+    public class StudentPreferences
     {
-        public int PrefNumber { get; set; }
         public String ProgrammeName { get; set; }
-        public String FacultyName { get; set; }
-        public double FinalResult { get; set; }
+
+        public int PrefNumber { get; set; }
+
+        public String Faculty { get; set; }
+
     }
 }
