@@ -99,9 +99,7 @@ namespace StudentRanking.Controllers
         public void SaveCounts(int maleCount, int femaleCount)
         {
             //ako crashnat int-ovete napravi si go sys string parametri
-            int a = 1;
-            int b = 2;
-            int c = a + b;
+
         }
     }
 }
