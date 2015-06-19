@@ -67,6 +67,12 @@ namespace StudentRanking.Controllers
             return View();
         }
 
+        
+        public ActionResult RegisterStudent(RegisterStudentModel model)
+        {
+            return View(model);
+        }
+
         //
         // POST: /Account/RegisterAdmin
 
