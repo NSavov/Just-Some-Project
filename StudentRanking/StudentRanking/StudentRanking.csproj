@@ -204,6 +204,7 @@
     <Compile Include="Models\Faculty.cs" />
     <Compile Include="Models\FacultyRankList.cs" />
     <Compile Include="Models\Formula.cs" />
+    <Compile Include="Models\Grader.cs" />
     <Compile Include="Models\Preference.cs" />
     <Compile Include="Models\ProgrammeProperties.cs" />
     <Compile Include="Models\ProgrammeRules.cs" />

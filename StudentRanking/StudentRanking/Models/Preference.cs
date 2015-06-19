@@ -22,7 +22,7 @@ namespace StudentRanking.Models
         public int PrefNumber{ get; set; }
 
         [DefaultValue(0)]
-        public int TotalGrade { get; set; }
+        public double TotalGrade { get; set; }
 
         [DefaultValue(false)]
         public bool IsApproved { get; set; }

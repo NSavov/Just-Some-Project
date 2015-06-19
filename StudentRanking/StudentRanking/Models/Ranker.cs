@@ -10,7 +10,7 @@ namespace StudentRanking.Models
 {
     public class Ranker
     {
-        RankingContext context;
+        private RankingContext context;
 
         struct RankListEntry
         {
@@ -72,97 +72,7 @@ namespace StudentRanking.Models
             return query.First();
         }
 
-        private List<List<String>> getFormulasComponents(String programmeName)
-        {
-            List<List<String>> allComponents = new List<List<string>>();
-            List<String> components = new List<string>();
-
-            var query = from formula in context.Formulas
-                        where formula.ProgrammeName == programmeName
-                        select formula;
-
-            foreach (var formula in query)
-            {
-                if (formula.C1 > 0)
-                {
-                    components.Add(formula.C1.ToString());
-                    components.Add(formula.X);
-                }
-
-                if (formula.C2 > 0)
-                {
-                    components.Add(formula.C2.ToString());
-                    components.Add(formula.Y);
-                }
-
-                if (formula.C3 > 0)
-                {
-                    components.Add(formula.C3.ToString());
-                    components.Add(formula.Z);
-                }
-
-                if (formula.C4 > 0)
-                {
-                    components.Add(formula.C4.ToString());
-                    components.Add(formula.W);
-                }
-
-                allComponents.Add(components);
-            }
-
-            return allComponents;
-        }
-
-        private List<Exam> getStudentGrades(String studentEGN)
-        {
-            List<Exam> grades = new List<Exam>();
-
-            var query = from grade in context.Exams
-                        where grade.StudentEGN == studentEGN
-                        select grade;
-
-            foreach (Exam grade in query)
-            {
-                grades.Add(grade);
-            }
-
-            return grades;
-        }
-
-        private List<List<String>> filterStudentFormulas(String StudentEGN, String programmeName)
-        {
-            Boolean useMatExam = false; //should the matricularity exam be used instead of the diploma grade
-
-            //TODO: return formulas applicable for this student
-
-            List<List<String>> formulas = getFormulasComponents(programmeName);
-
-            for (int formulaInd = 0; formulaInd < formulas.Count; formulaInd++)
-            {
-
-                for (int componentInd = 1; componentInd < formulas[formulaInd].Count; componentInd += 2)
-                {
-                   // if (!hasExamGrade())
-                    {
-                        formulas.RemoveAt(formulaInd);
-                        break;
-                    }
-                }
-
-            }
-
-            return formulas;
-        }
-
-        private void calculateTotalGrade(String studentEGN, List<Preference> preferences)
-        {
-            List<Exam> grades = getStudentGrades(studentEGN);
-
-            foreach(Preference preference in preferences)
-            {
-                //add total grade in preference table
-            }
-        }
+ 
 
         private Dictionary<String, List<Preference>> splitPreferencesByFaculty(List<Preference> preferences)
         {
