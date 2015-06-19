@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudentRanking.App_Start;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,6 +18,8 @@ namespace StudentRanking
     {
         protected void Application_Start()
         {
+            WebSecurityInitializer.Instance.EnsureInitialize();
+
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
@@ -24,7 +27,7 @@ namespace StudentRanking
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
-            WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", true); 
+           // WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", true); 
         }
     }
 }
