@@ -13,7 +13,7 @@ namespace StudentRanking.DataAccess
 
     {
         public RankingContext()
-            : base("DefaultConnection")
+            : base("RankingContext")
         { }
         public DbSet<Exam> Exams { get; set; }
         public DbSet<Student> Students { get; set; }
@@ -22,6 +22,8 @@ namespace StudentRanking.DataAccess
         public DbSet<Formula> Formulas { get; set; }
         public DbSet<Faculty> Faculties { get; set; }
         public DbSet<FacultyRankList> FacultyRankLists { get; set; }
+        public DbSet<ExamName> ExamNames { get; set; }
+        
         protected void OnModelCreating(DbModelBuilder modelBuilder)
         {
             Database.SetInitializer(new IndexInitializer<DbContext>());
