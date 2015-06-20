@@ -1,5 +1,6 @@
 ﻿using StudentRanking.DataAccess;
 using StudentRanking.Models;
+using StudentRanking.Ranking;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -90,10 +91,10 @@ namespace StudentRanking.Controllers
 
 
 
-            Ranker ranker = new Ranker(db);
+            QueryManager queryManager = new QueryManager(db);
 
             String egn = "1234567890";
-            List<Preference> studentPreferences = ranker.getStudentPreferences(egn);
+            List<Preference> studentPreferences = queryManager.getStudentPreferences(egn);
 
             foreach (var preff in studentPreferences)
             {
@@ -138,9 +139,9 @@ namespace StudentRanking.Controllers
             //                                         .OrderByDescending(t => t.PrefNumber)
             //                                         .FirstOrDefault().PrefNumber;
 
-            Ranker ranker = new Ranker(db);
+            QueryManager queryManager = new QueryManager(db);
 
-            List<Preference> studentPreferences = ranker.getStudentPreferences(egn);
+            List<Preference> studentPreferences = queryManager.getStudentPreferences(egn);
             
             foreach (var preff in studentPreferences)
             {
