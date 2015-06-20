@@ -51,15 +51,18 @@ namespace StudentRanking.Controllers
 
         public ActionResult Create()
         {
-            List<String> programmes = new List<String>();
+            //List<String> programmes = new List<String>();
 
-            programmes.Add("Математика Матура");
-            programmes.Add("Математика Диплома");
-            programmes.Add("Математика 1");
-            programmes.Add("Математика 2");
-            SelectList faculties = new SelectList(programmes);
+            //programmes.Add("Математика Матура");
+            //programmes.Add("Математика Диплома");
+            //programmes.Add("Математика 1");
+            //programmes.Add("Математика 2");
 
-            ViewData["examNames"] = faculties;
+            var examsNames = from exam in db.ExamNames
+                             select exam.Name;
+
+
+            ViewData["currentExamName"] = new SelectList(examsNames.ToList());
             return View();
         }
 
@@ -70,6 +73,12 @@ namespace StudentRanking.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Exam exam)
         {
+            var examsNames = from exam2 in db.ExamNames
+                             select exam2.Name;
+
+
+            ViewData["currentExamName"] = new SelectList(examsNames.ToList());
+
             if (ModelState.IsValid)
             {
                 db.Exams.Add(exam);

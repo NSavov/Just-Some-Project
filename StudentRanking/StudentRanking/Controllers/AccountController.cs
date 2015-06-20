@@ -68,10 +68,10 @@ namespace StudentRanking.Controllers
         }
 
         
-        public ActionResult RegisterStudent(RegisterStudentModel model)
-        {
-            return View(model);
-        }
+        //public ActionResult RegisterStudent(RegisterStudentModel model)
+        //{
+        //    return View(model);
+        //}
 
         //
         // POST: /Account/RegisterAdmin

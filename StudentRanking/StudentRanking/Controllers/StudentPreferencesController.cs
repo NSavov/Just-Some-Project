@@ -1,6 +1,8 @@
-﻿using StudentRanking.Models;
+﻿using StudentRanking.DataAccess;
+using StudentRanking.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -12,33 +14,56 @@ namespace StudentRanking.Controllers
     {
         //
         // GET: /StudentPreferences/
+        private RankingContext db = new RankingContext();
         private Dictionary<String, List<String>> programmes = new Dictionary<String, List<String>>();
         private List<StudentPreferences> model = new List<StudentPreferences>();
 
         public StudentPreferencesController()
         {
-            List<String> p1 = new List<String>();
-            p1.Add("KN");
-            p1.Add("Info");
-            p1.Add("IS");
+            //List<String> p1 = new List<String>();
+            //p1.Add("KN");
+            //p1.Add("Info");
+            //p1.Add("IS");
 
-            List<String> p2 = new List<String>();
-            p2.Add("ikonomika");
-            p2.Add("Selsko stopanstvo");
+            //List<String> p2 = new List<String>();
+            //p2.Add("ikonomika");
+            //p2.Add("Selsko stopanstvo");
 
-            List<String> p3 = new List<String>();
-            p3.Add("Biologiq");
-            p3.Add("Biotehnologii");
-            p3.Add("Molekulqrna");
+            //List<String> p3 = new List<String>();
+            //p3.Add("Biologiq");
+            //p3.Add("Biotehnologii");
+            //p3.Add("Molekulqrna");
 
-            List<String> faculties = new List<String>();
-            faculties.Add("FMI");
-            faculties.Add("Stopanski");
-            faculties.Add("Bilogicheski");
+            //List<String> faculties = new List<String>();
+            //faculties.Add("FMI");
+            //faculties.Add("Stopanski");
+            //faculties.Add("Bilogicheski");
 
-            programmes.Add(faculties[0], p1);
-            programmes.Add(faculties[1], p2);
-            programmes.Add(faculties[2], p3);
+            //programmes.Add(faculties[0], p1);
+            //programmes.Add(faculties[1], p2);
+            //programmes.Add(faculties[2], p3);
+
+            //List<Faculty> faculties = new List<Faculty>();
+            ////faculties = db.Faculties.ToList();
+
+            var faculties = db.Faculties.ToList();
+
+            foreach (var faculty in faculties)
+            {
+                if (!programmes.ContainsKey(faculty.FacultyName))
+                {
+                    List<String> specialities = new List<String>();
+                    programmes.Add(faculty.FacultyName, specialities);
+                    //specialities.Add(faculty.ProgrammeName);
+                    programmes[faculty.FacultyName].Add(faculty.ProgrammeName);
+                }
+                else
+                {
+                    programmes[faculty.FacultyName].Add(faculty.ProgrammeName);
+                }
+            }
+
+
 
         }
 
@@ -62,6 +87,25 @@ namespace StudentRanking.Controllers
             SelectList faculties = new SelectList(l);
        
             ViewData["faculties"] = faculties;
+
+
+
+            Ranker ranker = new Ranker(db);
+
+            String egn = "1234567890";
+            List<Preference> studentPreferences = ranker.getStudentPreferences(egn);
+
+            foreach (var preff in studentPreferences)
+            {
+                String fac = db.Faculties.Find(preff.ProgrammeName).FacultyName;
+                StudentPreferences pr = new StudentPreferences
+                {
+                    Faculty = fac,
+                    ProgrammeName = preff.ProgrammeName,
+                    PrefNumber = preff.PrefNumber
+                };
+                model.Add(pr);
+            }
             ViewData["result"] = model;
 
             return View(model);
@@ -74,16 +118,56 @@ namespace StudentRanking.Controllers
             user = "Evgeny";
             ViewData["userName"] = user;
 
+            String day = ConfigurationManager.AppSettings["AddingPreferencesFirstDay"];
+            String[] date = day.Split('-');
+            DateTime finale = new DateTime(Convert.ToInt32(date[0]),
+                                           Convert.ToInt32(date[1]),
+                                           Convert.ToInt32(date[2]));
+
             List<String> l = programmes.Keys.ToList<string>();
             l.Insert(0, "Please Select");
             SelectList faculties = new SelectList(l);
 
             ViewData["faculties"] = faculties;
 
-            StudentPreferences pref = new StudentPreferences { Faculty = faculty, ProgrammeName = programmeName, PrefNumber = 1 };
+            
+
+            String egn = "1234567890";
+
+            //int lastPreferenceNumber = db.Preferences.Where(t => t.EGN == egn )
+            //                                         .OrderByDescending(t => t.PrefNumber)
+            //                                         .FirstOrDefault().PrefNumber;
+
+            Ranker ranker = new Ranker(db);
+
+            List<Preference> studentPreferences = ranker.getStudentPreferences(egn);
+            
+            foreach (var preff in studentPreferences)
+            {
+                String fac = db.Faculties.Find(preff.ProgrammeName).FacultyName;
+                StudentPreferences pr = new StudentPreferences { Faculty = fac, ProgrammeName = preff.ProgrammeName,
+                                                                 PrefNumber = preff.PrefNumber };
+                model.Add(pr);
+            }
+
+            int nextPrefenceNumber = (studentPreferences.Count() != 0) ? studentPreferences.Max(t => t.PrefNumber) + 1 : 1;
+            StudentPreferences pref = new StudentPreferences { Faculty = faculty, ProgrammeName = programmeName,
+                                                               PrefNumber = nextPrefenceNumber };
+            Preference p = new Preference
+            {
+                EGN = egn,
+                IsApproved = false,
+                PrefNumber = nextPrefenceNumber,
+                ProgrammeName = programmeName,
+                TotalGrade = 0
+            };
+
+            db.Preferences.Add(p);
+            db.SaveChanges();
             model.Add(pref);
-            ModelState.Clear();
             ViewData["result"] = model;
+
+
 
             return PartialView("_StudentPreferencesTable", model);
             //return View("Index",model);

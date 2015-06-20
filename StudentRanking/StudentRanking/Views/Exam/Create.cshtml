@@ -1,4 +1,4 @@
-﻿@model StudentRanking.Models.Exam
+﻿@model StudentRanking.DataAccess.Exam
 
 @{
     ViewBag.Title = "Create";
@@ -29,15 +29,15 @@
             @*@Html.EditorFor(model => model.ExamName)
             @Html.ValidationMessageFor(model => model.ExamName)*@
 
-            @Html.DropDownListFor(model => model.ExamName, ViewData["examNames"] as SelectList)
+            @Html.DropDownListFor(model => model.ExamName, ViewData["currentExamName"] as SelectList)
         </div>
         <br>
         <div class="editor-label">
             @Html.LabelFor(model => model.Grade)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Grade)
-            @Html.ValidationMessageFor(model => model.Grade)
+            @Html.EditorFor(model => (float)model.Grade)
+            @Html.ValidationMessageFor(model => (float)model.Grade)
         </div>
 
 
