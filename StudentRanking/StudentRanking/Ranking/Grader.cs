@@ -1,10 +1,11 @@
 ﻿using StudentRanking.DataAccess;
+using StudentRanking.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace StudentRanking.Models
+namespace StudentRanking.Ranking
 {
     public class Grader
     {
@@ -12,85 +13,14 @@ namespace StudentRanking.Models
         private const String DIPLOMA = "диплома";
 
         private RankingContext context;
+        private QueryManager queryManager;
         private Dictionary<string, double> grades;
         private Dictionary<string, string> useExam;
 
         public Grader(RankingContext context)
         {
             this.context = context;
-        }
-
-        private List<List<String>> getFormulasComponents(String programmeName)
-        {
-            List<List<String>> allComponents = new List<List<string>>();
-            List<String> components = new List<string>();
-
-            var query = from formula in context.Formulas
-                        where formula.ProgrammeName == programmeName
-                        select formula;
-
-            foreach (var formula in query)
-            {
-                if (formula.C1 > 0)
-                {
-                    components.Add(formula.C1.ToString());
-                    components.Add(formula.X);
-                }
-
-                if (formula.C2 > 0)
-                {
-                    components.Add(formula.C2.ToString());
-                    components.Add(formula.Y);
-                }
-
-                if (formula.C3 > 0)
-                {
-                    components.Add(formula.C3.ToString());
-                    components.Add(formula.Z);
-                }
-
-                if (formula.C4 > 0)
-                {
-                    components.Add(formula.C4.ToString());
-                    components.Add(formula.W);
-                }
-
-                allComponents.Add(components);
-            }
-
-            return allComponents;
-        }
-
-        //private List<Exam> getStudentGrades(String studentEGN)
-        //{
-        //    List<Exam> grades = new List<Exam>();
-
-        //    var query = from grade in context.Exams
-        //                where grade.StudentEGN == studentEGN
-        //                select grade;
-
-        //    foreach (Exam grade in query)
-        //    {
-        //        grades.Add(grade);
-        //    }
-
-        //    return grades;
-        //}
-
-        private Dictionary<String, double> getStudentGrades(String studentEGN)
-        {
-            Dictionary<String, double> grades = new Dictionary<String, double>();
-
-            var query = from grade in context.Exams
-                        where grade.StudentEGN == studentEGN
-                        select grade;
-
-            foreach (Exam grade in query)
-            {
-                grades.Add(grade.ExamName, grade.Grade);
-            }
-
-            return grades;
+            queryManager = new QueryManager(context);
         }
 
         private List<String> getMatricularityExams(List<List<String>> formulas)
@@ -133,7 +63,7 @@ namespace StudentRanking.Models
             Double value;
             //TODO: return formulas applicable for this student
 
-            List<List<String>> formulas = getFormulasComponents(programmeName);
+            List<List<String>> formulas = queryManager.getFormulasComponents(programmeName);
             double totalGrade = 0;
             double maxGrade = 0;
 
@@ -175,7 +105,7 @@ namespace StudentRanking.Models
 
         public void grade(String studentEGN, List<Preference> preferences)
         {
-            grades = getStudentGrades(studentEGN);
+            grades = queryManager.getStudentGrades(studentEGN);
 
             foreach (Preference preference in preferences)
             {

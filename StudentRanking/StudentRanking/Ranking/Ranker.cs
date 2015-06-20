@@ -1,4 +1,5 @@
 ﻿using StudentRanking.DataAccess;
+using StudentRanking.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,11 +7,18 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
-namespace StudentRanking.Models
+namespace StudentRanking.Ranking
 {
     public class Ranker
     {
+
         private RankingContext context;
+        private QueryManager queryManager;
+        private struct RankListData
+        {
+            public int studentCount;
+            public double minimalGrade;
+        }
 
         struct RankListEntry
         {
@@ -27,23 +35,7 @@ namespace StudentRanking.Models
         public Ranker(RankingContext context)
         {
             this.context = context;
-        }
-
-        //Returns a list of preferences of a student by SSN
-        private List<Preference> getStudentPreferences(String EGN)
-        {
-            List<Preference> preferences = new List<Preference>();
-
-            var query = from pref in context.Preferences
-                        where pref.EGN == EGN
-                        select pref;
-
-            foreach (var pref in query)
-            {
-                preferences.Add(pref);
-            }
-
-            return preferences;
+            queryManager = new QueryManager(context);
         }
 
         //Returns a list of student SSNs currently in a Programme by Programme
@@ -63,16 +55,9 @@ namespace StudentRanking.Models
             return students;
         }
 
-        private String getFaculty(String programmeName)
-        {
-            var query = from ProgrammeToFaculty in context.Faculties
-                        where ProgrammeToFaculty.ProgrammeName == programmeName
-                        select ProgrammeToFaculty.FacultyName;
 
-            return query.First();
-        }
 
- 
+
 
         private Dictionary<String, List<Preference>> splitPreferencesByFaculty(List<Preference> preferences)
         {
@@ -81,7 +66,7 @@ namespace StudentRanking.Models
 
             foreach (Preference preference in preferences)
             {
-                String faculty = getFaculty(preference.ProgrammeName);
+                String faculty = queryManager.getFaculty(preference.ProgrammeName);
 
 
                 if (!splittedPreferences.TryGetValue(faculty, out value))
@@ -93,6 +78,63 @@ namespace StudentRanking.Models
             }
 
             return splittedPreferences;
+        }
+
+        private RankListData getRankListData(String programmeName)
+        {
+
+            RankListData data = new RankListData();
+            var query = from rankEntry in context.FacultyRankLists
+                        where rankEntry.ProgrammeName == programmeName
+                        orderby rankEntry.TotalGrade ascending
+                        select rankEntry;
+
+            data.studentCount = query.Count();
+            data.minimalGrade = query.First().TotalGrade;
+
+            return data;
+        }
+
+
+
+        private void match(String facultyName, List<Preference> preferences, Boolean gender)
+        {
+            //TODO: decide what to do with expelled students
+            foreach (Preference preference in preferences)
+            {
+                int quota = queryManager.getQuota(preference.ProgrammeName, gender);
+                RankListData data = getRankListData(preference.ProgrammeName);
+
+                if (preference.TotalGrade > data.minimalGrade &&
+                    data.studentCount >= quota)
+                {
+
+                    var entries = context.FacultyRankLists.Where(entry => entry.TotalGrade == data.minimalGrade);
+
+                    foreach (FacultyRankList entry in entries)
+                    {
+                        context.FacultyRankLists.Remove(entry);
+                    }
+                    context.SaveChanges();
+                }
+
+                if (preference.TotalGrade >= data.minimalGrade ||
+                    (preference.TotalGrade < data.minimalGrade && data.studentCount < quota))
+                {
+                    FacultyRankList entry = new FacultyRankList()
+                        {
+                            EGN = preference.EGN,
+                            ProgrammeName = preference.ProgrammeName,
+                            TotalGrade = preference.TotalGrade
+                        };
+
+                    context.FacultyRankLists.Add(entry);
+                    context.SaveChanges();
+
+                    break;
+                }
+
+            }
         }
 
         public void start()
@@ -112,11 +154,18 @@ namespace StudentRanking.Models
             for (int i = 0; i < students.Count; i++)
             {
                 //handle preferences
-                List<Preference> allPreferences = getStudentPreferences(students[i].EGN);
+                List<Preference> allPreferences = queryManager.getStudentPreferences(students[i].EGN);
                 Dictionary<String, List<Preference>> preferences = splitPreferencesByFaculty(allPreferences);
 
                 //handle grading
+                Grader grader = new Grader(context);
+                grader.grade(students[i].EGN, allPreferences);
 
+                //handle ranking
+                foreach (String key in preferences.Keys)
+                {
+                    match(key, preferences[key], (Boolean)students[i].Gender);
+                }
             }
         }
 
@@ -133,7 +182,7 @@ namespace StudentRanking.Models
             //context.Preferences.Add(pref2);
             //context.SaveChanges();
 
-            var pref = this.getStudentPreferences("1234121");
+            var pref = queryManager.getStudentPreferences("1234121");
 
             Debug.WriteLine("test");
 

@@ -9,6 +9,7 @@ using StudentRanking.Models;
 using StudentRanking.DataAccess;
 using WebMatrix.WebData;
 using System.Web.Security;
+using StudentRanking.Ranking;
 
 namespace StudentRanking.Controllers
 {
@@ -21,8 +22,11 @@ namespace StudentRanking.Controllers
 
         public ActionResult Index(String egn = "")
         {
+
             Ranker ranker = new Ranker(db);
             ranker.test();
+
+
             if (egn == "")
                 return View(db.Students.ToList());
             else
