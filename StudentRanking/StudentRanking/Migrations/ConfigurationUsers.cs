@@ -5,14 +5,14 @@ namespace StudentRanking.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class ConfigurationUsers : DbMigrationsConfiguration<StudentRanking.Models.UsersContext>
+    internal sealed class ConfigurationUsers : DbMigrationsConfiguration<StudentRanking.DataAccess.UsersContext>
     {
         public ConfigurationUsers()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(StudentRanking.Models.UsersContext context)
+        protected override void Seed(StudentRanking.DataAccess.UsersContext context)
         {
             //  This method will be called after migrating to the latest version.
 
