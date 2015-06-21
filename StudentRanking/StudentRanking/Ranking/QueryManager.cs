@@ -90,6 +90,7 @@ namespace StudentRanking.Ranking
                 }
 
                 allComponents.Add(components);
+                components = new List<string>();
             }
 
             return allComponents;
@@ -127,6 +128,25 @@ namespace StudentRanking.Ranking
             }
 
             return grades;
+        }
+
+        public Student getStudent(String EGN)
+        {
+            return context.Students.Where(student => student.EGN == EGN).First();
+        }
+
+        public List<FacultyRankList> getRankList(String programmeName)
+        {
+            List<FacultyRankList> rankList = new List<FacultyRankList>();
+            var query = from rankEntry in context.FacultyRankLists
+                        where rankEntry.ProgrammeName == programmeName
+                        orderby rankEntry.TotalGrade ascending
+                        select rankEntry;
+
+            foreach (FacultyRankList entry in query)
+                rankList.Add(entry);
+
+            return rankList;
         }
     }
 }

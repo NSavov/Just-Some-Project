@@ -24,7 +24,7 @@ namespace StudentRanking.Controllers
         {
 
             Ranker ranker = new Ranker(db);
-            ranker.test();
+            ranker.start();
 
 
             if (egn == "")
