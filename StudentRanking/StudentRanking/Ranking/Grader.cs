@@ -48,10 +48,10 @@ namespace StudentRanking.Ranking
 
         private Boolean hasMatricularityGrade(String exam, List<String> matricularityExams)
         {
-            String filteredExamName = exam.ToLower().Replace(MATRICULARITY_EXAM, String.Empty);
+            String filteredExamName = exam.ToLower().Replace(DIPLOMA, String.Empty);
             filteredExamName.Trim();
 
-            if (matricularityExams.Contains(exam))
+            if (matricularityExams.Contains(filteredExamName))
                 return true;
 
             return false;
@@ -78,11 +78,13 @@ namespace StudentRanking.Ranking
                         hasMatricularityGrade(formulas[formulaInd][componentInd], matricularityExams))
                     {
                         //we shouldn't allow diploma grading if matricularity grade is available
+                        totalGrade = 0;
                         break;
                     }
 
                     if (!grades.TryGetValue(formulas[formulaInd][componentInd], out value))
                     {
+                        totalGrade = 0;
                         break;
                     }
 
