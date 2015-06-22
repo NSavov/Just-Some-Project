@@ -25,15 +25,7 @@ namespace StudentRanking.Ranking
                         where pref.EGN == EGN
                         select pref;
 
-            if (query.Count() == 0 )
-            {
-                return preferences;
-            }
-
-            foreach (var pref in query)
-            {
-                preferences.Add(pref);
-            }
+            preferences = query.ToList();
 
             return preferences;
         }
@@ -152,6 +144,18 @@ namespace StudentRanking.Ranking
                 rankList.Add(entry);
 
             return rankList;
+        }
+
+        public List<FacultyRankList> getRankListData(String programmeName, Boolean gender)
+        {
+
+            var query = from rankEntry in context.FacultyRankLists
+                        where rankEntry.ProgrammeName == programmeName
+                        orderby rankEntry.TotalGrade ascending
+                        select rankEntry;
+
+
+            return query.ToList();
         }
     }
 }

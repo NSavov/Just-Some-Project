@@ -15,11 +15,6 @@ namespace StudentRanking.Ranking
 
         private RankingContext context;
         private QueryManager queryManager;
-        private struct RankListData
-        {
-            public int studentCount;
-            public double minimalGrade;
-        }
 
         struct RankListEntry
         {
@@ -56,24 +51,6 @@ namespace StudentRanking.Ranking
             return students;
         }
 
-        private RankListData getRankListData(String programmeName)
-        {
-
-            RankListData data = new RankListData();
-            var query = from rankEntry in context.FacultyRankLists
-                        where rankEntry.ProgrammeName == programmeName
-                        orderby rankEntry.TotalGrade ascending
-                        select rankEntry;
-
-            data.studentCount = query.Count();
-            if (data.studentCount > 0)
-                data.minimalGrade = query.First().TotalGrade;
-            else
-                data.minimalGrade = 0;
-
-            return data;
-        }
-
         private void match(String facultyName, List<Preference> preferences, Student student)
         {
             //add student as rejected in the db at first
@@ -87,17 +64,19 @@ namespace StudentRanking.Ranking
             context.FacultyRankLists.Add(rejected);
             context.SaveChanges();
 
-            //TODO: decide what to do with expelled students
             foreach (Preference preference in preferences)
             {
                 int quota = queryManager.getQuota(preference.ProgrammeName, (bool)student.Gender);
-                RankListData data = getRankListData(preference.ProgrammeName);
+                List<FacultyRankList> rankList = queryManager.getRankListData(preference.ProgrammeName, (bool)student.Gender);
+                double minimalGrade = rankList.Min(list => list.TotalGrade);
+                double studentCount = rankList.Count;
 
-                if (preference.TotalGrade > data.minimalGrade &&
-                    data.studentCount >= quota)
+                //TODO: Think of a smarter way to delete students
+                if (preference.TotalGrade > minimalGrade &&
+                    studentCount >= quota)
                 {
 
-                    var entries = context.FacultyRankLists.Where(entry => entry.TotalGrade == data.minimalGrade);
+                    var entries = rankList.Where(entry => entry.TotalGrade == minimalGrade);
 
                     foreach (FacultyRankList entry in entries)
                     {
@@ -108,8 +87,8 @@ namespace StudentRanking.Ranking
                     context.SaveChanges();
                 }
 
-                if (preference.TotalGrade >= data.minimalGrade ||
-                    (preference.TotalGrade < data.minimalGrade && data.studentCount < quota))
+                if (preference.TotalGrade >= minimalGrade ||
+                    (preference.TotalGrade < minimalGrade && studentCount < quota))
                 {
                     FacultyRankList entry = new FacultyRankList()
                         {
@@ -187,56 +166,69 @@ namespace StudentRanking.Ranking
             List<Student> students = new List<Student>();
 
             //getting all unenrolled students
-            var getStudentsQuery = from student in context.Students
-                                   where student.IsEnrolled == false
-                                   select student;
+            //var getStudentsQuery = from student in context.Students
+            //                       where student.IsEnrolled == false
+            //                       select student;
 
-            foreach (var student in getStudentsQuery)
-            {
-                serve(student);
-
-            }
-
-            
-            //var getFacultyNames = from faculty in context.Faculties
-            //                      select faculty.FacultyName;
-            //var getDistinctFacultyNames = getFacultyNames.Distinct();
-
-            //foreach (String facultyName in getDistinctFacultyNames)
+            //foreach (var student in getStudentsQuery)
             //{
-            //    var getStudentsEGNQuery = from student in context.Students
-            //                              from preference in context.Preferences
-            //                              from faculty in context.Faculties
-            //                              where student.IsEnrolled == false
-            //                              where faculty.FacultyName == facultyName && preference.ProgrammeName == faculty.ProgrammeName
-            //                              select student.EGN;
+            //    serve(student);
 
-
-            //    var getApprovedStudentsEGNQuery = from entry in context.FacultyRankLists
-            //                                      from faculty in context.Faculties
-            //                                      where entry.ProgrammeName == faculty.ProgrammeName || (faculty.ProgrammeName == CONST_REJECTED + ' ' + entry.ProgrammeName)
-            //                                      where faculty.FacultyName == facultyName
-            //                                      select entry.EGN;
-
-            //    var unmatchedEGNQuery = getStudentsEGNQuery.Where(egn => !egn.Equals(getApprovedStudentsEGNQuery.Any()));
-            //        //from egn in getStudentsEGNQuery//getStudentsEGNQuery.Except(getApprovedStudentsEGNQuery.ToArray());
-            //                            //where !getApprovedStudentsEGNQuery.Any().Equals(egn)
-            //                            //select egn;
-
-            //    int count;
-
-            //    do
-            //    {
-            //        foreach (String EGN in unmatchedEGNQuery)
-            //        {
-            //            Student student;
-            //            student = queryManager.getStudent(EGN);
-            //            serve(student);
-            //        }
-            //        count = unmatchedEGNQuery.Count();
-            //    }
-            //    while (count > 0);
             //}
+
+
+            var getFacultyNames = (from faculty in context.Faculties
+                                  select faculty.FacultyName).Distinct();
+
+            List<String> facultyNames = getFacultyNames.ToList();
+            List<String> studentEGNs;
+
+            foreach (String facultyName in facultyNames)
+            {
+                var getStudentsEGNQuery = (from student in context.Students
+                                          from preference in context.Preferences
+                                          from faculty in context.Faculties
+                                          where student.IsEnrolled == false
+                                          where faculty.FacultyName == facultyName && preference.ProgrammeName == faculty.ProgrammeName
+                                          select student.EGN).Distinct();
+
+
+
+                var getApprovedStudentsEGNQuery = (from entry in context.FacultyRankLists
+                                                  from faculty in context.Faculties
+                                                  where entry.ProgrammeName == faculty.ProgrammeName || (faculty.ProgrammeName.Equals( CONST_REJECTED + " " + faculty.FacultyName))
+                                                  where faculty.FacultyName == facultyName
+                                                  select entry.EGN).Distinct();
+
+                //var unmatchedEGNQuery = getStudentsEGNQuery.Where(egn => !egn.Equals(getApprovedStudentsEGNQuery.Any()));
+                //from egn in getStudentsEGNQuery//getStudentsEGNQuery.Except(getApprovedStudentsEGNQuery.ToArray());
+                //where !getApprovedStudentsEGNQuery.Any().Equals(egn)
+                //select egn;
+
+
+                int count;
+
+                do
+                {
+                    studentEGNs = getStudentsEGNQuery.ToList();
+                    count = 0;
+                    foreach (String EGN in studentEGNs)
+                    {
+                        Student student;
+                        student = queryManager.getStudent(EGN);
+
+                        //bool isApproved = getApprovedStudentsEGNQuery.Where(studentEGN => studentEGN == EGN).Count() > 0;
+
+                        if (!getApprovedStudentsEGNQuery.Contains(EGN))
+                        { 
+                            serve(student);
+                            count++;
+                        }
+                    }
+                    
+                }
+                while (count > 0);
+            }
         }
 
         public void test()

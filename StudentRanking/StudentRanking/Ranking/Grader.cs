@@ -15,7 +15,6 @@ namespace StudentRanking.Ranking
         private RankingContext context;
         private QueryManager queryManager;
         private Dictionary<string, double> grades;
-        private Dictionary<string, string> useExam;
 
         public Grader(RankingContext context)
         {
