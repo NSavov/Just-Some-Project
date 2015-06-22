@@ -145,5 +145,17 @@ namespace StudentRanking.Ranking
 
             return rankList;
         }
+
+        public List<FacultyRankList> getRankListData(String programmeName, Boolean gender)
+        {
+
+            var query = from rankEntry in context.FacultyRankLists
+                        where rankEntry.ProgrammeName == programmeName
+                        orderby rankEntry.TotalGrade ascending
+                        select rankEntry;
+
+
+            return query.ToList();
+        }
     }
 }

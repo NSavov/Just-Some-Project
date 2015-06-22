@@ -15,11 +15,6 @@ namespace StudentRanking.Ranking
 
         private RankingContext context;
         private QueryManager queryManager;
-        private struct RankListData
-        {
-            public int studentCount;
-            public double minimalGrade;
-        }
 
         struct RankListEntry
         {
@@ -56,24 +51,6 @@ namespace StudentRanking.Ranking
             return students;
         }
 
-        private RankListData getRankListData(String programmeName)
-        {
-
-            RankListData data = new RankListData();
-            var query = from rankEntry in context.FacultyRankLists
-                        where rankEntry.ProgrammeName == programmeName
-                        orderby rankEntry.TotalGrade ascending
-                        select rankEntry;
-
-            data.studentCount = query.Count();
-            if (data.studentCount > 0)
-                data.minimalGrade = query.First().TotalGrade;
-            else
-                data.minimalGrade = 0;
-
-            return data;
-        }
-
         private void match(String facultyName, List<Preference> preferences, Student student)
         {
             //add student as rejected in the db at first
@@ -87,17 +64,19 @@ namespace StudentRanking.Ranking
             context.FacultyRankLists.Add(rejected);
             context.SaveChanges();
 
-            //TODO: decide what to do with expelled students
             foreach (Preference preference in preferences)
             {
                 int quota = queryManager.getQuota(preference.ProgrammeName, (bool)student.Gender);
-                RankListData data = getRankListData(preference.ProgrammeName);
+                List<FacultyRankList> rankList = queryManager.getRankListData(preference.ProgrammeName, (bool)student.Gender);
+                double minimalGrade = rankList.Min(list => list.TotalGrade);
+                double studentCount = rankList.Count;
 
-                if (preference.TotalGrade > data.minimalGrade &&
-                    data.studentCount >= quota)
+                //TODO: Think of a smarter way to delete students
+                if (preference.TotalGrade > minimalGrade &&
+                    studentCount >= quota)
                 {
 
-                    var entries = context.FacultyRankLists.Where(entry => entry.TotalGrade == data.minimalGrade);
+                    var entries = rankList.Where(entry => entry.TotalGrade == minimalGrade);
 
                     foreach (FacultyRankList entry in entries)
                     {
@@ -108,8 +87,8 @@ namespace StudentRanking.Ranking
                     context.SaveChanges();
                 }
 
-                if (preference.TotalGrade >= data.minimalGrade ||
-                    (preference.TotalGrade < data.minimalGrade && data.studentCount < quota))
+                if (preference.TotalGrade >= minimalGrade ||
+                    (preference.TotalGrade < minimalGrade && studentCount < quota))
                 {
                     FacultyRankList entry = new FacultyRankList()
                         {
@@ -198,11 +177,10 @@ namespace StudentRanking.Ranking
             //}
 
 
-            var getFacultyNames = from faculty in context.Faculties
-                                  select faculty.FacultyName;
-            var getDistinctFacultyNames = getFacultyNames.Distinct();
+            var getFacultyNames = (from faculty in context.Faculties
+                                  select faculty.FacultyName).Distinct();
 
-            List<String> facultyNames = getDistinctFacultyNames.ToList();
+            List<String> facultyNames = getFacultyNames.ToList();
             List<String> studentEGNs;
 
             foreach (String facultyName in facultyNames)
@@ -227,7 +205,6 @@ namespace StudentRanking.Ranking
                 //where !getApprovedStudentsEGNQuery.Any().Equals(egn)
                 //select egn;
 
-                List<String> list = getApprovedStudentsEGNQuery.ToList();
 
                 int count;
 
