@@ -146,6 +146,20 @@ namespace StudentRanking.Ranking
             return rankList;
         }
 
+
+        public List<FacultyRankList> getStudentRankList(String EGN)
+        {
+            List<FacultyRankList> rankList = new List<FacultyRankList>();
+            var query = from rankEntry in context.FacultyRankLists
+                        where rankEntry.EGN == EGN
+                        select rankEntry;
+
+            foreach (FacultyRankList entry in query)
+                rankList.Add(entry);
+
+            return rankList;
+        }
+
         public List<FacultyRankList> getRankListData(String programmeName, Boolean gender)
         {
 

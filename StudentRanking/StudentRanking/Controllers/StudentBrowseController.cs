@@ -66,10 +66,10 @@ namespace StudentRanking.Controllers
             //ViewBag.Password = Membership.GeneratePassword(10, 0);
             //String pass = ViewBag.Password;
 
-            string newPassword = Membership.GeneratePassword(10, 0);
-            Random rnd = new Random();
-            newPassword = Regex.Replace(newPassword, @"[^a-zA-Z0-9]", m => rnd.Next(0, 10).ToString());
-            ViewBag.Password = newPassword;
+            //string newPassword = Membership.GeneratePassword(10, 0);
+            //Random rnd = new Random();
+            //newPassword = Regex.Replace(newPassword, @"[^a-zA-Z0-9]", m => rnd.Next(0, 10).ToString());
+            //ViewBag.Password = newPassword;
 
             return View();
         }

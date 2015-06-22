@@ -93,12 +93,12 @@ namespace StudentRanking.Controllers
 
             QueryManager queryManager = new QueryManager(db);
 
-            //String egn = "1234567890";
             List<Preference> studentPreferences = queryManager.getStudentPreferences(user);
 
             foreach (var preff in studentPreferences)
             {
-                String fac = db.Faculties.Find(preff.ProgrammeName).FacultyName;
+                Faculty f = db.Faculties.Find(preff.ProgrammeName);
+                String fac = (f != null ) ? f.FacultyName : "";
                 StudentPreferences pr = new StudentPreferences
                 {
                     Faculty = fac,
