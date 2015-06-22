@@ -20,29 +20,45 @@ namespace StudentRanking.Controllers
         // GET: /ProgrammeRules/
         public ProgrammeRulesController() : base()
         {
-            List<String> p1 = new List<String>();
-            p1.Add("KN");
-            p1.Add("Info");
-            p1.Add("IS");
+            //List<String> p1 = new List<String>();
+            //p1.Add("KN");
+            //p1.Add("Info");
+            //p1.Add("IS");
 
-            List<String> p2 = new List<String>();
-            p2.Add("ikonomika");
-            p2.Add("Selsko stopanstvo");
+            //List<String> p2 = new List<String>();
+            //p2.Add("ikonomika");
+            //p2.Add("Selsko stopanstvo");
 
-            List<String> p3 = new List<String>();
-            p3.Add("Biologiq");
-            p3.Add("Biotehnologii");
-            p3.Add("Molekulqrna");
+            //List<String> p3 = new List<String>();
+            //p3.Add("Biologiq");
+            //p3.Add("Biotehnologii");
+            //p3.Add("Molekulqrna");
 
-            List<String> faculties = new List<String>();
-            faculties.Add("FMI");
-            faculties.Add("Stopanski");
-            faculties.Add("Bilogicheski");
+            //List<String> faculties = new List<String>();
+            //faculties.Add("FMI");
+            //faculties.Add("Stopanski");
+            //faculties.Add("Bilogicheski");
 
-            programmes.Add(faculties[0], p1);
-            programmes.Add(faculties[1], p2);
-            programmes.Add(faculties[2], p3);
+            //programmes.Add(faculties[0], p1);
+            //programmes.Add(faculties[1], p2);
+            //programmes.Add(faculties[2], p3);
 
+            var faculties = db.Faculties.ToList();
+
+            foreach (var faculty in faculties)
+            {
+                if (!programmes.ContainsKey(faculty.FacultyName))
+                {
+                    List<String> specialities = new List<String>();
+                    programmes.Add(faculty.FacultyName, specialities);
+                    //specialities.Add(faculty.ProgrammeName);
+                    programmes[faculty.FacultyName].Add(faculty.ProgrammeName);
+                }
+                else
+                {
+                    programmes[faculty.FacultyName].Add(faculty.ProgrammeName);
+                }
+            }
 
         }
 
