@@ -187,56 +187,71 @@ namespace StudentRanking.Ranking
             List<Student> students = new List<Student>();
 
             //getting all unenrolled students
-            var getStudentsQuery = from student in context.Students
-                                   where student.IsEnrolled == false
-                                   select student;
+            //var getStudentsQuery = from student in context.Students
+            //                       where student.IsEnrolled == false
+            //                       select student;
 
-            foreach (var student in getStudentsQuery)
-            {
-                serve(student);
-
-            }
-
-            
-            //var getFacultyNames = from faculty in context.Faculties
-            //                      select faculty.FacultyName;
-            //var getDistinctFacultyNames = getFacultyNames.Distinct();
-
-            //foreach (String facultyName in getDistinctFacultyNames)
+            //foreach (var student in getStudentsQuery)
             //{
-            //    var getStudentsEGNQuery = from student in context.Students
-            //                              from preference in context.Preferences
-            //                              from faculty in context.Faculties
-            //                              where student.IsEnrolled == false
-            //                              where faculty.FacultyName == facultyName && preference.ProgrammeName == faculty.ProgrammeName
-            //                              select student.EGN;
+            //    serve(student);
 
-
-            //    var getApprovedStudentsEGNQuery = from entry in context.FacultyRankLists
-            //                                      from faculty in context.Faculties
-            //                                      where entry.ProgrammeName == faculty.ProgrammeName || (faculty.ProgrammeName == CONST_REJECTED + ' ' + entry.ProgrammeName)
-            //                                      where faculty.FacultyName == facultyName
-            //                                      select entry.EGN;
-
-            //    var unmatchedEGNQuery = getStudentsEGNQuery.Where(egn => !egn.Equals(getApprovedStudentsEGNQuery.Any()));
-            //        //from egn in getStudentsEGNQuery//getStudentsEGNQuery.Except(getApprovedStudentsEGNQuery.ToArray());
-            //                            //where !getApprovedStudentsEGNQuery.Any().Equals(egn)
-            //                            //select egn;
-
-            //    int count;
-
-            //    do
-            //    {
-            //        foreach (String EGN in unmatchedEGNQuery)
-            //        {
-            //            Student student;
-            //            student = queryManager.getStudent(EGN);
-            //            serve(student);
-            //        }
-            //        count = unmatchedEGNQuery.Count();
-            //    }
-            //    while (count > 0);
             //}
+
+
+            var getFacultyNames = from faculty in context.Faculties
+                                  select faculty.FacultyName;
+            var getDistinctFacultyNames = getFacultyNames.Distinct();
+
+            List<String> facultyNames = getDistinctFacultyNames.ToList();
+            List<String> studentEGNs;
+
+            foreach (String facultyName in facultyNames)
+            {
+                var getStudentsEGNQuery = (from student in context.Students
+                                          from preference in context.Preferences
+                                          from faculty in context.Faculties
+                                          where student.IsEnrolled == false
+                                          where faculty.FacultyName == facultyName && preference.ProgrammeName == faculty.ProgrammeName
+                                          select student.EGN).Distinct();
+
+
+
+                var getApprovedStudentsEGNQuery = (from entry in context.FacultyRankLists
+                                                  from faculty in context.Faculties
+                                                  where entry.ProgrammeName == faculty.ProgrammeName || (faculty.ProgrammeName.Equals( CONST_REJECTED + " " + faculty.FacultyName))
+                                                  where faculty.FacultyName == facultyName
+                                                  select entry.EGN).Distinct();
+
+                //var unmatchedEGNQuery = getStudentsEGNQuery.Where(egn => !egn.Equals(getApprovedStudentsEGNQuery.Any()));
+                //from egn in getStudentsEGNQuery//getStudentsEGNQuery.Except(getApprovedStudentsEGNQuery.ToArray());
+                //where !getApprovedStudentsEGNQuery.Any().Equals(egn)
+                //select egn;
+
+                List<String> list = getApprovedStudentsEGNQuery.ToList();
+
+                int count;
+
+                do
+                {
+                    studentEGNs = getStudentsEGNQuery.ToList();
+                    count = 0;
+                    foreach (String EGN in studentEGNs)
+                    {
+                        Student student;
+                        student = queryManager.getStudent(EGN);
+
+                        //bool isApproved = getApprovedStudentsEGNQuery.Where(studentEGN => studentEGN == EGN).Count() > 0;
+
+                        if (!getApprovedStudentsEGNQuery.Contains(EGN))
+                        { 
+                            serve(student);
+                            count++;
+                        }
+                    }
+                    
+                }
+                while (count > 0);
+            }
         }
 
         public void test()

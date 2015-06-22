@@ -209,7 +209,6 @@
     <Compile Include="DataAccess\Preference.cs" />
     <Compile Include="DataAccess\ProgrammeProperties.cs" />
     <Compile Include="DataAccess\ProgrammeRules.cs" />
-    <Compile Include="Ranking\PreferenceManager.cs" />
     <Compile Include="Ranking\QueryManager.cs" />
     <Compile Include="Ranking\Ranker.cs" />
     <Compile Include="DataAccess\Student.cs" />
