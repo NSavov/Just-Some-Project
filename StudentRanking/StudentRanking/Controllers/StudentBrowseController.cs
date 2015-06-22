@@ -10,6 +10,7 @@ using StudentRanking.DataAccess;
 using WebMatrix.WebData;
 using System.Web.Security;
 using StudentRanking.Ranking;
+using System.Text.RegularExpressions;
 
 namespace StudentRanking.Controllers
 {
@@ -62,7 +63,14 @@ namespace StudentRanking.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.Password = Membership.GeneratePassword(10, 0);
+            //ViewBag.Password = Membership.GeneratePassword(10, 0);
+            //String pass = ViewBag.Password;
+
+            string newPassword = Membership.GeneratePassword(8, 0);
+            Random rnd = new Random();
+            newPassword = Regex.Replace(newPassword, @"[^a-zA-Z0-9]", m => rnd.Next(0, 10).ToString());
+            ViewBag.Password = newPassword;
+
             return View();
         }
 
@@ -79,11 +87,17 @@ namespace StudentRanking.Controllers
                 db.Students.Add(student);
                 db.SaveChanges();
 
+                string newPassword = Membership.GeneratePassword(8, 0);
+                Random rnd = new Random();
+                newPassword = Regex.Replace(newPassword, @"[^a-zA-Z0-9]", m => rnd.Next(0, 10).ToString());
+                ViewBag.Password = newPassword;
+
+                String pass = ViewBag.Password;
                 WebSecurity.CreateUserAndAccount(student.EGN, ViewBag.Password);
                 WebSecurity.Login(student.EGN, ViewBag.Password);
 
                 MembershipUser user = Membership.GetUser(student.EGN);
-                user.GetPassword();
+                //user.GetPassword();
 
                 var roles = (SimpleRoleProvider)Roles.Provider;
 

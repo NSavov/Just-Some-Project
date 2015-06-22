@@ -36,9 +36,12 @@ namespace StudentRanking.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
+            String user = model.UserName;
+            String pass = model.Password;
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
-                return RedirectToLocal(returnUrl);
+                //return RedirectToLocal(returnUrl);
+               return  RedirectToAction("Index", "StudentPreferences");
             }
 
             // If we got this far, something failed, redisplay form
@@ -55,7 +58,8 @@ namespace StudentRanking.Controllers
         {
             WebSecurity.Logout();
 
-            return RedirectToAction("Index", "Home");
+            //return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         //
