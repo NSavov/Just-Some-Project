@@ -15,17 +15,24 @@
         <div>
             <ol>
                 <li>
-                    @Html.ActionLink("Регистриране на студент", "RegisterStudent","Account")
+                    @Html.ActionLink("Регистриране на студент", "Create","StudentBrowse")
                 </li>
                 <li>
-                    @Html.ActionLink("Търсене на студент", "ShowStudent", "Admin")
+                    @Html.ActionLink("Търсене на студент", "Index", "StudentBrowse")
                 </li>
                 <li>
-                    @Html.ActionLink("Класиране", "ShowRanking", "Admin")
+                    @Html.ActionLink("Класиране", "Index", "ProgrammeRankList")
                 </li>
                 <li>
-                    @Html.ActionLink("Задаване на квоти", "SetRules", "Admin")
+                    @Html.ActionLink("Задаване на квоти", "Index", "ProgrammeRules")
                 </li>
+                @if (User.Identity.Name == "Admin")
+                {
+                    <li>
+                        @Html.ActionLink("Добавяне на администратори", "RegisterAdmin", "Account")
+                    </li>
+                }
+                
             </ol>
         </div>
     }

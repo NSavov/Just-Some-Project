@@ -25,6 +25,11 @@ namespace StudentRanking.Ranking
                         where pref.EGN == EGN
                         select pref;
 
+            if (query.Count() == 0 )
+            {
+                return preferences;
+            }
+
             foreach (var pref in query)
             {
                 preferences.Add(pref);

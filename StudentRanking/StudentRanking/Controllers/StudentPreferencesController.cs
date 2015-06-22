@@ -80,7 +80,7 @@ namespace StudentRanking.Controllers
         public ActionResult Index()
         {
             String user = User.Identity.Name;
-            user = "Evgeny";
+            //user = "Evgeny";
             ViewData["userName"] = user;
 
             List<String> l = programmes.Keys.ToList<string>();
@@ -93,8 +93,8 @@ namespace StudentRanking.Controllers
 
             QueryManager queryManager = new QueryManager(db);
 
-            String egn = "1234567890";
-            List<Preference> studentPreferences = queryManager.getStudentPreferences(egn);
+            //String egn = "1234567890";
+            List<Preference> studentPreferences = queryManager.getStudentPreferences(user);
 
             foreach (var preff in studentPreferences)
             {

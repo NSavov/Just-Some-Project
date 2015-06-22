@@ -186,6 +186,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ExamController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProgrammeRankListController.cs" />
     <Compile Include="Controllers\ProgrammeRulesController.cs" />
     <Compile Include="Controllers\StudentBrowseController.cs" />
     <Compile Include="Controllers\StudentPreferencesController.cs" />
@@ -209,7 +210,6 @@
     <Compile Include="DataAccess\Preference.cs" />
     <Compile Include="DataAccess\ProgrammeProperties.cs" />
     <Compile Include="DataAccess\ProgrammeRules.cs" />
-    <Compile Include="Ranking\PreferenceManager.cs" />
     <Compile Include="Ranking\QueryManager.cs" />
     <Compile Include="Ranking\Ranker.cs" />
     <Compile Include="DataAccess\Student.cs" />
@@ -355,6 +355,8 @@
     <Content Include="Views\Exam\Edit.cshtml" />
     <Content Include="Views\Exam\Delete.cshtml" />
     <Content Include="Views\Shared\_StudentExamsGrades.cshtml" />
+    <Content Include="Views\ProgrammeRankList\Index.cshtml" />
+    <Content Include="Views\Shared\_ProgrammeRankListTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

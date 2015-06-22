@@ -24,8 +24,8 @@ namespace StudentRanking.Controllers
         public ActionResult Index(String egn = "")
         {
 
-            Ranker ranker = new Ranker(db);
-            ranker.start();
+            //Ranker ranker = new Ranker(db);
+            //ranker.start();
 
 
             if (egn == "")
@@ -66,7 +66,7 @@ namespace StudentRanking.Controllers
             //ViewBag.Password = Membership.GeneratePassword(10, 0);
             //String pass = ViewBag.Password;
 
-            string newPassword = Membership.GeneratePassword(8, 0);
+            string newPassword = Membership.GeneratePassword(10, 0);
             Random rnd = new Random();
             newPassword = Regex.Replace(newPassword, @"[^a-zA-Z0-9]", m => rnd.Next(0, 10).ToString());
             ViewBag.Password = newPassword;
@@ -87,7 +87,7 @@ namespace StudentRanking.Controllers
                 db.Students.Add(student);
                 db.SaveChanges();
 
-                string newPassword = Membership.GeneratePassword(8, 0);
+                string newPassword = Membership.GeneratePassword(10, 0);
                 Random rnd = new Random();
                 newPassword = Regex.Replace(newPassword, @"[^a-zA-Z0-9]", m => rnd.Next(0, 10).ToString());
                 ViewBag.Password = newPassword;
