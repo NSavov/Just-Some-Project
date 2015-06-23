@@ -80,7 +80,7 @@ namespace StudentRanking.Controllers
         public ActionResult Index()
         {
             String user = User.Identity.Name;
-            user = "Evgeny";
+            //user = "Evgeny";
             ViewData["userName"] = user;
 
             List<String> l = programmes.Keys.ToList<string>();
@@ -89,16 +89,24 @@ namespace StudentRanking.Controllers
        
             ViewData["faculties"] = faculties;
 
+            StringToDatesConverter converter = new StringToDatesConverter();
+            DateTime end = converter.getDateByString(ConfigurationManager.AppSettings["AddingPreferencesLastDate"]);
+            ViewData["isAddingPreferencesEnd"] = false;
+            if (DateTime.Today > end)
+            {
+                ViewData["isAddingPreferencesEnd"] = true;
+            }
+
 
 
             QueryManager queryManager = new QueryManager(db);
 
-            String egn = "1234567890";
-            List<Preference> studentPreferences = queryManager.getStudentPreferences(egn);
+            List<Preference> studentPreferences = queryManager.getStudentPreferences(user);
 
             foreach (var preff in studentPreferences)
             {
-                String fac = db.Faculties.Find(preff.ProgrammeName).FacultyName;
+                Faculty f = db.Faculties.Find(preff.ProgrammeName);
+                String fac = (f != null ) ? f.FacultyName : "";
                 StudentPreferences pr = new StudentPreferences
                 {
                     Faculty = fac,
@@ -116,14 +124,21 @@ namespace StudentRanking.Controllers
         public ActionResult Index(String faculty, String programmeName)
         {
             String user = User.Identity.Name;
-            user = "Evgeny";
             ViewData["userName"] = user;
 
-            String day = ConfigurationManager.AppSettings["AddingPreferencesFirstDay"];
+            String day = ConfigurationManager.AppSettings["AddingPreferencesLastDate"];
             String[] date = day.Split('-');
             DateTime finale = new DateTime(Convert.ToInt32(date[0]),
                                            Convert.ToInt32(date[1]),
                                            Convert.ToInt32(date[2]));
+
+            ViewData["isAddingPreferencesEnd"] = true;
+
+            if (DateTime.Today > finale)
+            {
+                ViewData["isAddingPreferencesEnd"] = true;
+            }
+
 
             List<String> l = programmes.Keys.ToList<string>();
             l.Insert(0, "Please Select");
@@ -133,7 +148,7 @@ namespace StudentRanking.Controllers
 
             
 
-            String egn = "1234567890";
+            String egn = user;
 
             //int lastPreferenceNumber = db.Preferences.Where(t => t.EGN == egn )
             //                                         .OrderByDescending(t => t.PrefNumber)

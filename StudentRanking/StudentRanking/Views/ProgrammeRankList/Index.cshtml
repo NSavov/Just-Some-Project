@@ -1,8 +1,10 @@
-﻿@model IEnumerable<StudentRanking.Models.StudentPreferences>
+﻿@model IEnumerable<StudentRanking.DataAccess.FacultyRankList>
 @{
-    ViewBag.Title = "StudentPreferences";
-    var res = ViewData["result"] as List<StudentRanking.Models.StudentPreferences>;
-    bool isAddingPreferencesEnd = (bool)ViewData["isAddingPreferencesEnd"];
+    ViewBag.Title = "FacultyRankList";
+    var res = ViewData["result"] as List<StudentRanking.DataAccess.FacultyRankList>;
+    bool isMainAdmin = (bool)ViewData["mainAdmin"];
+    bool isRankListPublished = (bool)ViewData["isRankListPublished"];
+    bool isRankingDate = (bool)ViewData["isRankingDate"];
 }
 
 <style>
@@ -24,7 +26,7 @@
             $("#faculty").change(function () {
                 if ($("#faculty").val() != "Please select") {
                     var options = {};
-                    options.url = "/StudentPreferences/getprogrammes";
+                    options.url = "/ProgrammeRankList/getprogrammes";
                     options.type = "POST";
                     options.data = JSON.stringify({ faculty: $("#faculty").val() });
                     options.dataType = "json";
@@ -50,7 +52,7 @@
         function SubmitClick() {
             $.ajax({
                 type: 'POST',
-                url: "/StudentPreferences/index",
+                url: "/ProgrammeRankList/index",
                 data: {
                     faculty: $("#faculty option:selected").text(),
                     programmeName: $("#programmeName option:selected").text()
@@ -65,59 +67,51 @@
             });
         };
 
+
+
+        function Publish() {
+            
+        };
     </script>
 }
 
-
-<h2>@ViewData["userName"]</h2>
-
-@if (!isAddingPreferencesEnd)
+@if (isRankingDate)
 {
-    <h2>Подаване на желания</h2>
-    <div><h4>Изберете факултет</h4></div>
-    
-    @Html.DropDownList("faculty", ViewData["faculties"] as SelectList, new { @id = "faculty" })
-    <select id="programmeName"></select>
-    <input type="submit" value="Потвърдете" onclick="javascript:SubmitClick()" />
+    if (isMainAdmin && !isRankListPublished)
+    {
+        <label>Натиснете бутона, за да публикувате класирането.</label>
+        <input type="submit" value="Публикувайте" onclick="javascript: Publish()" />
+    }
+    else
+    {
+        if (!isMainAdmin && !isRankListPublished)
+        {
+            <label>Класирането не е публикувано. Само главният администратор може да публикува класирането.</label>
+        }
+        else
+        {
+            if (isRankListPublished)
+            {
+                <h2>Класиране по специалност</h2>
+                <br>
+                <div><h4>Изберете факултет:</h4></div>
+                @Html.DropDownList("faculty", ViewData["faculties"] as SelectList, new { @id = "faculty" })
+                <select id="programmeName"></select>
+                <input type="submit" value="Потвърдете" onclick="javascript:SubmitClick()" />
 
+                <div id="resultTable">
+                    @Html.Partial("_ProgrammeRankListTable", Model)
+                </div>
+            }
+        }
+
+    }
+
+
+}
+else
+{
+    <label>Не е настъпила датата за публикуване на класирането.</label>
 }
 
 
-<div id="resultTable">
-    @Html.Partial("_StudentPreferencesTable", Model)
-</div>
-
-@*<div id="resultTable">
-    <table>
-        <tr>
-            <th>
-                <label>Номер на желание</label>
-            </th>
-            <th>
-                <label>Факултет</label>
-            </th>
-            <th>
-                <label>Специалност</label>
-            </th>
-            <th></th>
-        </tr>
-
-        @if (res != null)
-        {
-            foreach (var item in res)
-            {
-                <tr>
-                    <td>
-                        @item.PrefNumber
-                    </td>
-                    <td>
-                        @item.Faculty
-                    </td>
-                    <td>
-                        @item.ProgrammeName
-                    </td>
-                </tr>
-            }
-        }
-    </table>
-</div>*@

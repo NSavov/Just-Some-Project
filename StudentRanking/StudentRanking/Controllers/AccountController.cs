@@ -11,6 +11,7 @@ using WebMatrix.WebData;
 using StudentRanking.Filters;
 using StudentRanking.Models;
 using StudentRanking.DataAccess;
+using System.Configuration;
 
 namespace StudentRanking.Controllers
 {
@@ -18,6 +19,7 @@ namespace StudentRanking.Controllers
     [InitializeSimpleMembership]
     public class AccountController : Controller
     {
+        
         //
         // GET: /Account/Login
 
@@ -38,8 +40,38 @@ namespace StudentRanking.Controllers
         {
             String user = model.UserName;
             String pass = model.Password;
+
+            if ( ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe)
+                 && model.UserName == "Admin" )
+            {
+                return RedirectToAction("Menu", "Admin");
+            }
+            
+
+
+            if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe)
+                  )
+            {
+                string name = model.UserName;
+                string[] roleNames = Roles.GetRolesForUser(name);
+                foreach (string role in roleNames)
+               {
+                   if (role.Contains("admin"))
+                   {
+                       return RedirectToAction("Menu", "Admin");      
+                   }
+               }
+            }
+
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
+                StringToDatesConverter converter = new StringToDatesConverter();
+                DateTime end = converter.getDateByString(ConfigurationManager.AppSettings["PublishFirstRankingDate"]);
+                if (DateTime.Today > end)
+                {
+                    return RedirectToAction("Index", "StudentRankingInformation");
+                }
+
                 //return RedirectToLocal(returnUrl);
                return  RedirectToAction("Index", "StudentPreferences");
             }

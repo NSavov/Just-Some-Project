@@ -20,28 +20,7 @@ namespace StudentRanking.Controllers
         // GET: /ProgrammeRules/
         public ProgrammeRulesController() : base()
         {
-            //List<String> p1 = new List<String>();
-            //p1.Add("KN");
-            //p1.Add("Info");
-            //p1.Add("IS");
-
-            //List<String> p2 = new List<String>();
-            //p2.Add("ikonomika");
-            //p2.Add("Selsko stopanstvo");
-
-            //List<String> p3 = new List<String>();
-            //p3.Add("Biologiq");
-            //p3.Add("Biotehnologii");
-            //p3.Add("Molekulqrna");
-
-            //List<String> faculties = new List<String>();
-            //faculties.Add("FMI");
-            //faculties.Add("Stopanski");
-            //faculties.Add("Bilogicheski");
-
-            //programmes.Add(faculties[0], p1);
-            //programmes.Add(faculties[1], p2);
-            //programmes.Add(faculties[2], p3);
+            
 
             var faculties = db.Faculties.ToList();
 
@@ -51,7 +30,6 @@ namespace StudentRanking.Controllers
                 {
                     List<String> specialities = new List<String>();
                     programmes.Add(faculty.FacultyName, specialities);
-                    //specialities.Add(faculty.ProgrammeName);
                     programmes[faculty.FacultyName].Add(faculty.ProgrammeName);
                 }
                 else
@@ -64,37 +42,23 @@ namespace StudentRanking.Controllers
 
         public JsonResult GetProgrammes(string faculty)
         {
-            if (faculty != "Please Select")
+            if (faculty != "Моля изберете")
                 return Json(programmes[faculty]);
             else
                 return Json(new List<String>());
         }
 
         [HttpPost]
-        public ActionResult Index(string country,string state)
+        public ActionResult Index(string faculty, string programmeName)
         {
-
-
             List<String> l = programmes.Keys.ToList<string>();
-            l.Insert(0, "Please Select");
+            l.Insert(0, "Моля изберете");
             SelectList faculties = new SelectList(l);
 
             ViewData["faculties"] = faculties;
 
-            model.Add(new ProgrammeProperties
-            {
-                ProgrammeName = "KN",
-                C1 = 3,
-                C2 = 10,
-                C3 = 9,
-                C4 = 8,
-                X = "math",
-                Y = "Himiq",
-                Z = "Biologiq",
-                W = "Medicina",
-                FemaleCount = 40,
-                MaleCount = 100
-            });
+            model = getProgrammeRules(programmeName);
+
             return PartialView("_ProgrammePropertiesTable",model);
         }
 
@@ -102,7 +66,7 @@ namespace StudentRanking.Controllers
         {
 
             List<String> l = programmes.Keys.ToList<string>();
-            l.Insert(0, "Please Select");
+            l.Insert(0, "Моля изберете");
             SelectList faculties = new SelectList(l);
 
             ViewData["faculties"] = faculties;
@@ -112,10 +76,70 @@ namespace StudentRanking.Controllers
         }
 
         [HttpPost]
-        public void SaveCounts(int maleCount, int femaleCount)
+        public void SaveCounts(int maleCount, int femaleCount, string programmeName)
         {
             //ako crashnat int-ovete napravi si go sys string parametri
+            var rule = db.ProgrammesRules.Find(programmeName);
+            if ( rule == null )
+            {
+                return;
+            }
+            rule.MaleCount = maleCount;
+            rule.FemaleCount = femaleCount;
+            db.Entry(rule).State = EntityState.Modified;
+            db.SaveChanges();
 
         }
+
+
+        private List<ProgrammeProperties> getProgrammeRules(String programmeName)
+        {
+            List<ProgrammeProperties> result = new List<ProgrammeProperties>();
+            var query = from formula in db.Formulas
+                        where formula.ProgrammeName == programmeName
+                        select formula;
+
+            ProgrammeRules pr = db.ProgrammesRules.Find(programmeName);
+            
+
+            foreach (var formula in query)
+            {
+                ProgrammeProperties rule = new ProgrammeProperties();
+                rule.MaleCount = pr.MaleCount;
+                rule.FemaleCount = pr.FemaleCount;
+                rule.ProgrammeName = programmeName;
+                if (formula.C1 > 0)
+                {
+                    rule.C1 = formula.C1;
+                    rule.X = formula.X;
+
+                }
+
+                if (formula.C2 > 0)
+                {
+                    rule.C2 = formula.C2;
+                    rule.Y = formula.Y;
+                }
+
+                if (formula.C3 > 0)
+                {
+                    rule.C3 = formula.C3;
+                    rule.Z = formula.Z;
+                }
+
+                if (formula.C4 > 0)
+                {
+                    rule.C4 = formula.C4;
+                    rule.W = formula.W;
+                }
+
+                result.Add(rule);
+            }
+
+            return result;
+        }
+
     }
+
+    
 }
