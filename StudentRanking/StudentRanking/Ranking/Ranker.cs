@@ -81,9 +81,11 @@ namespace StudentRanking.Ranking
                 //TODO: Think of a smarter way to delete students
                 if (preference.TotalGrade > minimalGrade &&
                     studentCount >= quota &&
-                    ( quota >=2 &&
-                    rankList[quota - 2].TotalGrade > minimalGrade ||
-                    quota < 2))
+                    ((quota >= 2 &&
+                    rankList[quota - 2].TotalGrade > minimalGrade) ||
+                    (quota == 1 &&
+                    rankList[quota - 1].TotalGrade > minimalGrade)
+                    ))
                 {
 
                     var entries = rankList.Where(entry => entry.TotalGrade == minimalGrade);
@@ -97,8 +99,10 @@ namespace StudentRanking.Ranking
                     context.SaveChanges();
                 }
 
-                if (preference.TotalGrade >= minimalGrade ||
-                    (preference.TotalGrade < minimalGrade && studentCount < quota))
+                if ((preference.TotalGrade > 0 &&
+                    preference.TotalGrade >= minimalGrade) ||
+                    (preference.TotalGrade < minimalGrade &&
+                    studentCount < quota))
                 {
                     FacultyRankList entry = new FacultyRankList()
                         {
@@ -174,6 +178,19 @@ namespace StudentRanking.Ranking
             //if we try to rate for a second time we should clear the rejected students and
             //those who did not enroll
 
+            var entriesToDelete = from student in context.Students
+                                  from entry in context.FacultyRankLists
+                                  where entry.EGN == student.EGN
+                                  where student.IsEnrolled == false || (entry.ProgrammeName.StartsWith(CONST_REJECTED + " "))
+                                  select entry;
+
+            foreach (FacultyRankList entry in entriesToDelete)
+            {
+                context.FacultyRankLists.Attach(entry);
+                context.FacultyRankLists.Remove(entry);
+            }
+            context.SaveChanges();
+
             //iterate through every faculty
             foreach (String facultyName in facultyNames)
             {
@@ -181,7 +198,7 @@ namespace StudentRanking.Ranking
                                            from preference in context.Preferences
                                            from faculty in context.Faculties
                                            where student.IsEnrolled == false
-                                           where faculty.FacultyName == facultyName && 
+                                           where faculty.FacultyName == facultyName &&
                                                 preference.ProgrammeName == faculty.ProgrammeName &&
                                                 preference.EGN == student.EGN
                                            select student.EGN).Distinct();
@@ -221,55 +238,6 @@ namespace StudentRanking.Ranking
                 while (count > 0);
             }
         }
-
-        public void test()
-        {
-            //Preference pref1 = new Preference(){EGN = "1234121", IsApproved = false, PrefNumber = 1, ProgrammeName = "CS"};
-            //Preference pref2 = new Preference() { EGN = "1234121", IsApproved = false, PrefNumber = 2, ProgrammeName = "ST" };
-            //Student s = new Student() {EGN="123445", Email="asdf", FirstName="A", Gender=true, IsEnrolled = false, LastName = "L" };
-            //Student s2 = new Student() { EGN = "123345", Email = "asdaf", FirstName = "A1", Gender = true, IsEnrolled = false, LastName = "L1" };
-            ////context.Students.Add(s);
-            ////context.Students.Add(s2);
-            ////context.SaveChanges();
-            //context.Preferences.Add(pref1);
-            //context.Preferences.Add(pref2);
-            //context.SaveChanges();
-
-            var pref = queryManager.getStudentPreferences("1234121");
-            var student = queryManager.getStudent("1231231231");
-
-            //handle preferences
-            List<Preference> allPreferences = queryManager.getStudentPreferences(student.EGN);
-            Dictionary<String, List<Preference>> preferences = splitPreferencesByFaculty(allPreferences);
-
-            //handle grading
-            Grader grader = new Grader(context);
-            grader.grade(student.EGN, allPreferences);
-
-            foreach (String key in preferences.Keys)
-            {
-                match(key, preferences[key], student);
-            }
-
-            //test preference handling
-            ////List<Preference> allPreferences = queryManager.getStudentPreferences(student.EGN);
-            ////Dictionary<String, List<Preference>> preferences = splitPreferencesByFaculty(allPreferences);
-
-
-            ////foreach (Preference preference in allPreferences)
-            ////    Debug.Write(preference.ProgrammeName + ' ');
-
-            ////Debug.WriteLine(0);
-
-            ////foreach(String key in preferences.Keys)
-            ////{
-            ////    foreach (Preference preference in preferences[key])
-            ////        Debug.Write(preference.ProgrammeName + ' ');
-
-            ////    Debug.WriteLine(0);
-            ////}
-        }
-
 
     }
 }

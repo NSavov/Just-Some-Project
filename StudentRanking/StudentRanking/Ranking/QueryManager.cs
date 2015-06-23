@@ -38,6 +38,7 @@ namespace StudentRanking.Ranking
             var query = from pref in context.Preferences
                         from faculty in context.Faculties
                         where pref.EGN == EGN && faculty.FacultyName == facultyName && faculty.ProgrammeName == pref.ProgrammeName
+                        orderby pref.PrefNumber ascending
                         select pref;
 
             preferences = query.ToList();

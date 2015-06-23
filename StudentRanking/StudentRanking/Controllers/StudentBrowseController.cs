@@ -24,8 +24,8 @@ namespace StudentRanking.Controllers
         public ActionResult Index(String egn = "")
         {
 
-            //Ranker ranker = new Ranker(db);
-            //ranker.start();
+            Ranker ranker = new Ranker(db);
+            ranker.start();
 
 
             if (egn == "")

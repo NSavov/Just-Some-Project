@@ -11,6 +11,7 @@ namespace StudentRanking.Ranking
     {
         private const String MATRICULARITY_EXAM = "матура";
         private const String DIPLOMA = "диплома";
+        private const double MINIMAL_ALLOWED_GRADE = 3;
 
         private RankingContext context;
         private QueryManager queryManager;
@@ -89,6 +90,12 @@ namespace StudentRanking.Ranking
 
                     int weight = Int32.Parse(formulas[formulaInd][componentInd - 1]);
                     double grade = grades[formulas[formulaInd][componentInd]];
+
+                    if (grade < MINIMAL_ALLOWED_GRADE)
+                    {
+                        totalGrade = 0;
+                        break;
+                    }
 
                     totalGrade += weight * grade;
                 }
