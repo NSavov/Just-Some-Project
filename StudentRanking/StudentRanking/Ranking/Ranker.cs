@@ -63,17 +63,27 @@ namespace StudentRanking.Ranking
 
             context.FacultyRankLists.Add(rejected);
             context.SaveChanges();
-
+            //try
+            //{
             foreach (Preference preference in preferences)
             {
                 int quota = queryManager.getQuota(preference.ProgrammeName, (bool)student.Gender);
                 List<FacultyRankList> rankList = queryManager.getRankListData(preference.ProgrammeName, (bool)student.Gender);
-                double minimalGrade = rankList.Min(list => list.TotalGrade);
+                double minimalGrade = 0;
                 double studentCount = rankList.Count;
+
+                if (rankList.Count != 0)
+                {
+                    minimalGrade = rankList.Min(list => list.TotalGrade);
+                }
+
 
                 //TODO: Think of a smarter way to delete students
                 if (preference.TotalGrade > minimalGrade &&
-                    studentCount >= quota)
+                    studentCount >= quota &&
+                    ( quota >=2 &&
+                    rankList[quota - 2].TotalGrade > minimalGrade ||
+                    quota < 2))
                 {
 
                     var entries = rankList.Where(entry => entry.TotalGrade == minimalGrade);
@@ -106,8 +116,17 @@ namespace StudentRanking.Ranking
                 }
 
             }
+            //}
+            //catch (Exception e)
+            //{
+            //    context.FacultyRankLists.Attach(rejected);
+            //    context.FacultyRankLists.Remove(rejected);
+            //    context.SaveChanges();
+            //    throw e;
+            //}
         }
 
+        //not used anymore
         private Dictionary<String, List<Preference>> splitPreferencesByFaculty(List<Preference> preferences)
         {
             Dictionary<String, List<Preference>> splittedPreferences = new Dictionary<String, List<Preference>>();
@@ -129,103 +148,75 @@ namespace StudentRanking.Ranking
             return splittedPreferences;
         }
 
-        //returns a list of students that are not rejected and were pushed away from their preferred programme
-        private List<Student> getUnmatchedStudents()
-        {
-            List<Student> unmatched = new List<Student>();
-
-            var getStudentQuery = from student in context.Students
-                                  select student.EGN;
-
-            var getEntriesQuery = from entry in context.FacultyRankLists
-                                  select entry.EGN;
-
-            var unmatchedS = getStudentQuery.Except(getEntriesQuery);
-            return unmatched;
-        }
-
-        private void serve(Student student)
+        private void serve(String facultyName, Student student)
         {
             //handle preferences
-            List<Preference> allPreferences = queryManager.getStudentPreferences(student.EGN);
-            Dictionary<String, List<Preference>> preferences = splitPreferencesByFaculty(allPreferences);
+            List<Preference> preferences = queryManager.getStudentPreferencesByFaculty(student.EGN, facultyName);
 
             //handle grading
             Grader grader = new Grader(context);
-            grader.grade(student.EGN, allPreferences);
+            grader.grade(student.EGN, preferences);
 
             //handle ranking
-            foreach (String key in preferences.Keys)
-            {
-                match(key, preferences[key], student);
-            }
+            match(facultyName, preferences, student);
         }
 
         public void start()
         {
             List<Student> students = new List<Student>();
 
-            //getting all unenrolled students
-            //var getStudentsQuery = from student in context.Students
-            //                       where student.IsEnrolled == false
-            //                       select student;
-
-            //foreach (var student in getStudentsQuery)
-            //{
-            //    serve(student);
-
-            //}
-
-
             var getFacultyNames = (from faculty in context.Faculties
-                                  select faculty.FacultyName).Distinct();
+                                   select faculty.FacultyName).Distinct();
 
             List<String> facultyNames = getFacultyNames.ToList();
             List<String> studentEGNs;
 
+            //if we try to rate for a second time we should clear the rejected students and
+            //those who did not enroll
+
+            //iterate through every faculty
             foreach (String facultyName in facultyNames)
             {
                 var getStudentsEGNQuery = (from student in context.Students
-                                          from preference in context.Preferences
-                                          from faculty in context.Faculties
-                                          where student.IsEnrolled == false
-                                          where faculty.FacultyName == facultyName && preference.ProgrammeName == faculty.ProgrammeName
-                                          select student.EGN).Distinct();
-
-
+                                           from preference in context.Preferences
+                                           from faculty in context.Faculties
+                                           where student.IsEnrolled == false
+                                           where faculty.FacultyName == facultyName && 
+                                                preference.ProgrammeName == faculty.ProgrammeName &&
+                                                preference.EGN == student.EGN
+                                           select student.EGN).Distinct();
 
                 var getApprovedStudentsEGNQuery = (from entry in context.FacultyRankLists
-                                                  from faculty in context.Faculties
-                                                  where entry.ProgrammeName == faculty.ProgrammeName || (faculty.ProgrammeName.Equals( CONST_REJECTED + " " + faculty.FacultyName))
-                                                  where faculty.FacultyName == facultyName
-                                                  select entry.EGN).Distinct();
-
-                //var unmatchedEGNQuery = getStudentsEGNQuery.Where(egn => !egn.Equals(getApprovedStudentsEGNQuery.Any()));
-                //from egn in getStudentsEGNQuery//getStudentsEGNQuery.Except(getApprovedStudentsEGNQuery.ToArray());
-                //where !getApprovedStudentsEGNQuery.Any().Equals(egn)
-                //select egn;
-
+                                                   from faculty in context.Faculties
+                                                   where faculty.FacultyName == facultyName
+                                                   where entry.ProgrammeName == faculty.ProgrammeName || (entry.ProgrammeName.Equals(CONST_REJECTED + " " + faculty.FacultyName))
+                                                   select entry.EGN).Distinct();
 
                 int count;
+                studentEGNs = getStudentsEGNQuery.ToList();
 
+                //this while cycle is used to match any remaining students rejected
+                //in previous iterations
                 do
                 {
-                    studentEGNs = getStudentsEGNQuery.ToList();
                     count = 0;
+                    //iterate through every student with a preference in this faculty
                     foreach (String EGN in studentEGNs)
                     {
                         Student student;
                         student = queryManager.getStudent(EGN);
 
-                        //bool isApproved = getApprovedStudentsEGNQuery.Where(studentEGN => studentEGN == EGN).Count() > 0;
+                        //TODO: This row is for debugging only
+                        List<String> lst = getApprovedStudentsEGNQuery.ToList();
 
+                        //if the student is already approved for a programme, skip him/her
                         if (!getApprovedStudentsEGNQuery.Contains(EGN))
-                        { 
-                            serve(student);
+                        {
+                            serve(facultyName, student);
                             count++;
                         }
                     }
-                    
+
                 }
                 while (count > 0);
             }

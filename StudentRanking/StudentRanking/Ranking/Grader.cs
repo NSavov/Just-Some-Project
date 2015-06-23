@@ -108,6 +108,8 @@ namespace StudentRanking.Ranking
         {
             grades = queryManager.getStudentGrades(studentEGN);
 
+            //TODO: Should we check for exams with the same name but different date?
+
             foreach (Preference preference in preferences)
             {
                 preference.TotalGrade = calculateTotalGrade(studentEGN, preference.ProgrammeName);

@@ -30,6 +30,21 @@ namespace StudentRanking.Ranking
             return preferences;
         }
 
+        //Returns a list of preferences of a student by SSN
+        public List<Preference> getStudentPreferencesByFaculty(String EGN, String facultyName)
+        {
+            List<Preference> preferences = new List<Preference>();
+
+            var query = from pref in context.Preferences
+                        from faculty in context.Faculties
+                        where pref.EGN == EGN && faculty.FacultyName == facultyName && faculty.ProgrammeName == pref.ProgrammeName
+                        select pref;
+
+            preferences = query.ToList();
+
+            return preferences;
+        }
+
         //get faculty by a programme name
         public String getFaculty(String programmeName)
         {
@@ -162,14 +177,26 @@ namespace StudentRanking.Ranking
 
         public List<FacultyRankList> getRankListData(String programmeName, Boolean gender)
         {
+            List<FacultyRankList> result = new List<FacultyRankList>();
 
             var query = from rankEntry in context.FacultyRankLists
                         where rankEntry.ProgrammeName == programmeName
                         orderby rankEntry.TotalGrade ascending
                         select rankEntry;
 
+            var genderCheck = from student in context.Students
+                              where student.Gender == gender
+                              select student.EGN;
 
-            return query.ToList();
+            List<FacultyRankList> temp = query.ToList();
+
+            foreach (FacultyRankList entry in temp)
+            {
+                if (genderCheck.Contains(entry.EGN))
+                    result.Add(entry);
+            }
+
+            return result;
         }
     }
 }
