@@ -11,13 +11,13 @@
          
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.StudentEGN)
+                    ЕГН
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.ExamName)
+                    Име на изпит
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Grade)
+                    Оценка
                 </th>
                 <th></th>
             </tr>
@@ -35,9 +35,9 @@
                         @Html.DisplayFor(modelItem => item.Grade)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { examName = item.ExamName, studentEGN = item.StudentEGN }) |
-                        @Html.ActionLink("Details", "Details", new { examName = item.ExamName, studentEGN = item.StudentEGN }) |
-                        @Html.ActionLink("Delete", "Delete", new { examName = item.ExamName, studentEGN = item.StudentEGN })
+                        @Html.ActionLink("Редактиране", "Edit", new { examName = item.ExamName, studentEGN = item.StudentEGN }) |
+                        @Html.ActionLink("Детайли", "Details", new { examName = item.ExamName, studentEGN = item.StudentEGN }) |
+                        @Html.ActionLink("Изтриване", "Delete", new { examName = item.ExamName, studentEGN = item.StudentEGN })
                     </td>
                 </tr>
             }

@@ -4,20 +4,20 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Детайли</h2>
 
 <fieldset>
     <legend>Exam</legend>
 
     <div class="display-label">
-        @Html.DisplayNameFor(model => model.StudentEGN)
+        <h4>ЕГН</h4>
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.StudentEGN)
     </div>
     <br>
     <div class="display-label">
-        @Html.DisplayNameFor(model => model.ExamName)
+        <h4>Име на изпит</h4>
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.ExamName)
@@ -25,13 +25,13 @@
     <br>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Grade)
+        <h4>Оценка</h4>
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Grade)
     </div>
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { examName = Model.ExamName, studentEGN = Model.StudentEGN }) 
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Редактиране", "Edit", new { examName = Model.ExamName, studentEGN = Model.StudentEGN }) 
+    @Html.ActionLink("Назад към списъка", "Index")
 </p>
