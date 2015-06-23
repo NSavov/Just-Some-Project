@@ -42,10 +42,21 @@ namespace StudentRanking.Models
                 isEnrolled = st.IsEnrolled;
             }
 
+            QueryManager manager = new QueryManager(db);
+            List<FacultyRankList> rankList = manager.getStudentRankList(user);
+
+            ViewData["enrolledProgramme"] = "";
+            ViewData["faculty"] = "";
             if (isEnrolled)
             {
                 ViewData["isRankListPublished"] = true;
                 ViewData["isEnrolled"] = true;
+                if (rankList.Count() == 1)
+                {
+                    ViewData["enrolledProgramme"] = rankList.First().ProgrammeName;
+                    Faculty f = db.Faculties.Find(ViewData["enrolledProgramme"]);
+                    ViewData["faculty"] = f.FacultyName;
+                }
                 return View(model);
             }
 
@@ -115,6 +126,21 @@ namespace StudentRanking.Models
             db.Entry(st).State = EntityState.Modified;
             db.SaveChanges();
             ViewData["isEnrolled"] = true;
+
+            QueryManager manager = new QueryManager(db);
+            List<FacultyRankList> rankList = manager.getStudentRankList(user);
+
+            foreach (var item in rankList)
+            {
+                if (item.ProgrammeName != programmeName)
+                {
+                    db.FacultyRankLists.Attach(item);
+                    db.FacultyRankLists.Remove(item);
+                    db.SaveChanges();
+                }
+            }
+
+            
             //return RedirectToAction("Index", "StudentRankingInformation");
             var redirectUrl = new UrlHelper(Request.RequestContext).Action("Index", "StudentRankingInformation");
             return Json(new { Url = redirectUrl });

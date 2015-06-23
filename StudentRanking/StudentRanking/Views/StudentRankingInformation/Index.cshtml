@@ -4,6 +4,8 @@
     ViewBag.Title = "StudentRankingInformation";
     bool isEnrolled = (bool)ViewData["isEnrolled"];
     bool isRankListPublished = (bool)ViewData["isRankListPublished"];
+    String enrolledProgramme = (String)ViewData["enrolledProgramme"];
+    String faculty = (String)ViewData["faculty"];
 }
 
 <style>
@@ -56,7 +58,9 @@
 {
     if (isEnrolled)
     {
-        <h2>Записан сте</h2>
+        <h2>Записан сте във факултет @faculty в специалност @enrolledProgramme</h2>
+        
+    
     }
     else
     {
