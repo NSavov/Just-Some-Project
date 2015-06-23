@@ -11,6 +11,7 @@ using WebMatrix.WebData;
 using StudentRanking.Filters;
 using StudentRanking.Models;
 using StudentRanking.DataAccess;
+using System.Configuration;
 
 namespace StudentRanking.Controllers
 {
@@ -64,6 +65,13 @@ namespace StudentRanking.Controllers
 
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
+                StringToDatesConverter converter = new StringToDatesConverter();
+                DateTime end = converter.getDateByString(ConfigurationManager.AppSettings["PublishFirstRankingDate"]);
+                if (DateTime.Today > end)
+                {
+                    return RedirectToAction("Index", "StudentRankingInformation");
+                }
+
                 //return RedirectToLocal(returnUrl);
                return  RedirectToAction("Index", "StudentPreferences");
             }

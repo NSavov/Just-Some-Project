@@ -44,6 +44,7 @@ namespace StudentRanking.Models
 
             if (isEnrolled)
             {
+                ViewData["isRankListPublished"] = true;
                 ViewData["isEnrolled"] = true;
                 return View(model);
             }
@@ -60,6 +61,13 @@ namespace StudentRanking.Models
 
             ViewData["programmes"] = pr;
 
+            bool hasFacultyRankListEntries = (db.FacultyRankLists.ToList().Count() != 0 ) ? true : false;
+
+            ViewData["isRankListPublished"] = false;
+            if (hasFacultyRankListEntries)
+            {
+                ViewData["isRankListPublished"] = true;
+            }
 
 
             List<String> studentProgrammes = new List<String>();

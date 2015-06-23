@@ -206,6 +206,7 @@
     <Compile Include="DataAccess\Faculty.cs" />
     <Compile Include="DataAccess\FacultyRankList.cs" />
     <Compile Include="DataAccess\Formula.cs" />
+    <Compile Include="Models\StringToDatesConverter.cs" />
     <Compile Include="Ranking\Grader.cs" />
     <Compile Include="DataAccess\Preference.cs" />
     <Compile Include="DataAccess\ProgrammeProperties.cs" />

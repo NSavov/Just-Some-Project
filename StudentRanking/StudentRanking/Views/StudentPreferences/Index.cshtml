@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "StudentPreferences";
     var res = ViewData["result"] as List<StudentRanking.Models.StudentPreferences>;
+    bool isAddingPreferencesEnd = (bool)ViewData["isAddingPreferencesEnd"];
 }
 
 <style>
@@ -69,12 +70,17 @@
 
 
 <h2>@ViewData["userName"]</h2>
-<h2>Подаване на желания</h2>
 
-<div>Изберете факултет</div>
-@Html.DropDownList("faculty", ViewData["faculties"] as SelectList, new { @id = "faculty" })
-<select id="programmeName"></select>
-<input type="submit" value="Submit" onclick="javascript:SubmitClick()"  />
+@if (!isAddingPreferencesEnd)
+{
+    <h2>Подаване на желания</h2>
+    <div><h4>Изберете факултет</h4></div>
+    
+    @Html.DropDownList("faculty", ViewData["faculties"] as SelectList, new { @id = "faculty" })
+    <select id="programmeName"></select>
+    <input type="submit" value="Потвърдете" onclick="javascript:SubmitClick()" />
+
+}
 
 
 <div id="resultTable">

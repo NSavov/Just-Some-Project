@@ -2,6 +2,9 @@
 @{
     ViewBag.Title = "FacultyRankList";
     var res = ViewData["result"] as List<StudentRanking.DataAccess.FacultyRankList>;
+    bool isMainAdmin = (bool)ViewData["mainAdmin"];
+    bool isRankListPublished = (bool)ViewData["isRankListPublished"];
+    bool isRankingDate = (bool)ViewData["isRankingDate"];
 }
 
 <style>
@@ -64,19 +67,51 @@
             });
         };
 
+
+
+        function Publish() {
+            
+        };
     </script>
 }
 
+@if (isRankingDate)
+{
+    if (isMainAdmin && !isRankListPublished)
+    {
+        <label>Натиснете бутона, за да публикувате класирането.</label>
+        <input type="submit" value="Публикувайте" onclick="javascript: Publish()" />
+    }
+    else
+    {
+        if (!isMainAdmin && !isRankListPublished)
+        {
+            <label>Класирането не е публикувано. Само главният администратор може да публикува класирането.</label>
+        }
+        else
+        {
+            if (isRankListPublished)
+            {
+                <h2>Класиране по специалност</h2>
+                <br>
+                <div><h4>Изберете факултет:</h4></div>
+                @Html.DropDownList("faculty", ViewData["faculties"] as SelectList, new { @id = "faculty" })
+                <select id="programmeName"></select>
+                <input type="submit" value="Потвърдете" onclick="javascript:SubmitClick()" />
 
-@*<h2>@ViewData["userName"]</h2>*@
-<h2>Класиране по специалност</h2>
-<br>
-<div><h4>Изберете факултет:</h4></div>
-@Html.DropDownList("faculty", ViewData["faculties"] as SelectList, new { @id = "faculty" })
-<select id="programmeName"></select>
-<input type="submit" value="Потвърдете" onclick="javascript:SubmitClick()" />
+                <div id="resultTable">
+                    @Html.Partial("_ProgrammeRankListTable", Model)
+                </div>
+            }
+        }
+
+    }
 
 
-<div id="resultTable">
-    @Html.Partial("_ProgrammeRankListTable", Model)
-</div>
+}
+else
+{
+    <label>Не е настъпила датата за публикуване на класирането.</label>
+}
+
+
