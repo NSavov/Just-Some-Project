@@ -3,12 +3,12 @@
 @model StudentRanking.DataAccess.RegisterAdminModel
 
 @{
-    ViewBag.Title = "Register Administrator";
+    ViewBag.Title = "Регистриране на администратор";
 }
 
 <hgroup class="title">
     <h1>@ViewBag.Title.</h1>
-    <h2>Create a new account.</h2>
+    <h2>Създайте нов акаунт.</h2>
 </hgroup>
 
 @using (Html.BeginForm())
@@ -20,19 +20,19 @@
         <legend>Registration Form</legend>
         <ol>
             <li>
-                @Html.LabelFor(m => m.UserName)
+                <label>Потребителско име</label>
                 @Html.TextBoxFor(m => m.UserName)
             </li>
             <li>
-                @Html.LabelFor(m => m.Password)
+                <label>Парола</label>
                 @Html.PasswordFor(m => m.Password)
             </li>
             <li>
-                @Html.LabelFor(m => m.ConfirmPassword)
+                <label>Потвърдете паролата</label>
                 @Html.PasswordFor(m => m.ConfirmPassword)
             </li>
         </ol>
-        <input type="submit" value="Register" />
+        <input type="submit" value="Регистриране" />
     </fieldset>
 }
 

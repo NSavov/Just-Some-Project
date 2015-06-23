@@ -4,58 +4,72 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+<h2>Изтриване</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Сигурни ли сте, че искате да изтриете това?</h3>
 <fieldset>
     <legend>Student</legend>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.FirstName)
+        <h4>Първо име</h4>
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.FirstName)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.LastName)
+        <h4>Фамилия</h4>
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.LastName)
     </div>
 
     <div class="display-label">
-        @Html.DisplayNameFor(model => model.EGN)
+        <h4>ЕГН</h4>
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.EGN)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Email)
+        <h4>Имейл</h4>
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Email)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Gender)
+        <h4>Пол</h4>
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Gender)
+        @if ((bool)Model.Gender)
+        {
+            <label>Мъж</label>
+        }
+        else
+        {
+            <label>Жена</label>
+        }
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.IsEnrolled)
+         <h4>Записан</h4>
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.IsEnrolled)
+        @if (Model.IsEnrolled)
+        {
+            <label>Да</label>
+        }
+        else
+        {
+            <label>Не</label>
+        }
     </div>
 </fieldset>
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     <p>
-        <input type="submit" value="Delete" /> |
-        @Html.ActionLink("Back to List", "Index")
+        <input type="submit" value="Изтрий" /> |
+        @Html.ActionLink("Назад към списъка", "Index")
     </p>
 }

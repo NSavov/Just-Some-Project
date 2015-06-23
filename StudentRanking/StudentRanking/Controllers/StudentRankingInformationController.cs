@@ -110,7 +110,7 @@ namespace StudentRanking.Models
             }
             ViewData["result"] = model;
 
-            model.Add(new StudentRankingInformation { FacultyName = "FMI", FinalResult = 22.4, PrefNumber = 1, ProgrammeName = "KN" });
+           // model.Add(new StudentRankingInformation { FacultyName = "FMI", FinalResult = 22.4, PrefNumber = 1, ProgrammeName = "KN" });
             return View(model);
         }
 

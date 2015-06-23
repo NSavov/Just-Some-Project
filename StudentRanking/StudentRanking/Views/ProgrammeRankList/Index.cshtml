@@ -67,10 +67,16 @@
             });
         };
 
-
-
         function Publish() {
-            
+            $.ajax({
+
+                type: 'post',
+                url: "/ProgrammeRankList/algoStart",
+                success: function (result) {
+                    window.location.href = result.Url;
+                }
+
+            });
         };
     </script>
 }
