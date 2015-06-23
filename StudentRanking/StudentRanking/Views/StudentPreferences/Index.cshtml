@@ -65,6 +65,23 @@
             });
         };
 
+
+        function Delete() {
+
+            $.ajax({
+
+                type: 'post',
+                url: "/StudentPreferences/deleteLastPreference",
+                success: function (result) {
+                    window.location.href = result.Url;
+                }
+
+            });
+        };
+
+
+        
+
     </script>
 }
 
@@ -79,7 +96,7 @@
     @Html.DropDownList("faculty", ViewData["faculties"] as SelectList, new { @id = "faculty" })
     <select id="programmeName"></select>
     <input type="submit" value="Потвърдете" onclick="javascript:SubmitClick()" />
-
+    <input type="submit" value="Изтрийте последното си желание" onclick="javascript:Delete()" />
 }
 
 

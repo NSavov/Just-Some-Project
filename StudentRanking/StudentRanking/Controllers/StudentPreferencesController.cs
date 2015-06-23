@@ -189,6 +189,23 @@ namespace StudentRanking.Controllers
             //return View("Index",model);
         }
 
+        public ActionResult deleteLastPreference()
+        {
+            QueryManager queryManager = new QueryManager(db);
+
+            List<Preference> studentPreferences = queryManager.getStudentPreferences(User.Identity.Name);
+            if (studentPreferences.Count() > 0 )
+            {
+                Preference p = studentPreferences.Last();
+                db.Preferences.Attach(p);
+                db.Preferences.Remove(p);
+                db.SaveChanges();
+            }
+
+            var redirectUrl = new UrlHelper(Request.RequestContext).Action("Index", "StudentPreferences");
+            return Json(new { Url = redirectUrl });
+        }
+
 
     }
 }
