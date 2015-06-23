@@ -4,7 +4,6 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
@@ -18,7 +17,7 @@
         @Html.HiddenFor(model => model.StudentEGN)
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.StudentEGN)
+            <h4>ЕГН</h4>
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.StudentEGN)
@@ -26,7 +25,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.ExamName)
+            <h4>Име на изпит</h4>
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.ExamName)
@@ -34,7 +33,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Grade)
+            <h4>Оценка</h4>
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.Grade)
@@ -42,13 +41,13 @@
         </div>
 
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="Запиши" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Назад към списъка", "Index")
 </div>
 
 @section Scripts {

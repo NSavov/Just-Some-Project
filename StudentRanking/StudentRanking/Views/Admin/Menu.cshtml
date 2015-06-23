@@ -26,10 +26,13 @@
                 <li>
                     @Html.ActionLink("Задаване на квоти", "Index", "ProgrammeRules")
                 </li>
+                <li>
+                    @Html.ActionLink("Оценки от изпити", "Index", "Exam")
+                </li>
                 @if (User.Identity.Name == "Admin")
                 {
                     <li>
-                        @Html.ActionLink("Добавяне на администратори", "RegisterAdmin", "Account")
+                        @Html.ActionLink("Регистриране на администратори", "RegisterAdmin", "Account")
                     </li>
                 }
                 

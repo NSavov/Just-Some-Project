@@ -11,6 +11,8 @@ using WebMatrix.WebData;
 using System.Web.Security;
 using StudentRanking.Ranking;
 using System.Text.RegularExpressions;
+using System.Net;
+using System.Net.Mail;
 
 namespace StudentRanking.Controllers
 {
@@ -63,13 +65,13 @@ namespace StudentRanking.Controllers
 
         public ActionResult Create()
         {
-            //ViewBag.Password = Membership.GeneratePassword(10, 0);
-            //String pass = ViewBag.Password;
+            ViewBag.Password = Membership.GeneratePassword(10, 0);
+            String pass = ViewBag.Password;
 
-            //string newPassword = Membership.GeneratePassword(10, 0);
-            //Random rnd = new Random();
-            //newPassword = Regex.Replace(newPassword, @"[^a-zA-Z0-9]", m => rnd.Next(0, 10).ToString());
-            //ViewBag.Password = newPassword;
+            string newPassword = Membership.GeneratePassword(10, 0);
+            Random rnd = new Random();
+            newPassword = Regex.Replace(newPassword, @"[^a-zA-Z0-9]", m => rnd.Next(0, 10).ToString());
+            ViewBag.Password = newPassword;
 
             return View();
         }
@@ -95,6 +97,52 @@ namespace StudentRanking.Controllers
                 String pass = ViewBag.Password;
                 WebSecurity.CreateUserAndAccount(student.EGN, ViewBag.Password);
                 WebSecurity.Login(student.EGN, ViewBag.Password);
+
+                //var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
+                //var message = new MailMessage();
+                //message.To.Add(new MailAddress("evgenistefchov@abv.bg")); //replace with valid value
+                //message.From = new MailAddress("flood1@abv.bg");
+                //message.Subject = "Your email subject";
+                //message.Body = string.Format(body, "admin",
+                //                                   "flood1@abv.bg", newPassword);
+                //message.IsBodyHtml = true;
+                //var smtp = new SmtpClient();
+
+                //var credential = new NetworkCredential
+                //{
+                //    UserName = "flood1@abv.bg",  // replace with valid value
+                //    Password = "123456789"  // replace with valid value
+                //};
+                //smtp.Credentials = credential;
+                //smtp.Host = "smtp.abv.bg";
+                //smtp.Port = 587;
+                //smtp.EnableSsl = true;
+
+                ////smtp.SendMailAsync(message);
+                //smtp.Send(message);
+
+                var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
+                MailMessage mail = new MailMessage();
+                mail.To.Add(new MailAddress("evgenistefchov@abv.bg"));
+                mail.From = new MailAddress("flood1@abv.bg");
+                mail.Subject = "Your email subject";
+                mail.Body = string.Format(body, "admin",
+                                                   "flood1@abv.bg", newPassword); ;
+                mail.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient("smtp.abv.bg", 587);
+                smtp.EnableSsl = true;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials =
+                     new System.Net.NetworkCredential("flood1@abv.bg", "123456789");
+                smtp.Send(mail);
+
+
+
+                //using (var smtp = new SmtpClient())
+                //{
+                //    await smtp.SendMailAsync(message);
+                //    //return RedirectToAction("Sent");
+                //}
 
                 MembershipUser user = Membership.GetUser(student.EGN);
                 //user.GetPassword();

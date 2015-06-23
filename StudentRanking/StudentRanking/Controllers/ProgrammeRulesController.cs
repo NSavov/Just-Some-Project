@@ -18,6 +18,7 @@ namespace StudentRanking.Controllers
 
         //
         // GET: /ProgrammeRules/
+        
         public ProgrammeRulesController() : base()
         {
             
@@ -62,6 +63,7 @@ namespace StudentRanking.Controllers
             return PartialView("_ProgrammePropertiesTable",model);
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult Index()
         {
 

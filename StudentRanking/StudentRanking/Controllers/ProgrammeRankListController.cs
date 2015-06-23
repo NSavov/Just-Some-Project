@@ -50,6 +50,7 @@ namespace StudentRanking.Controllers
 
 
         // GET: /ProgrammeRankList/
+        
         [HttpGet]
         public ActionResult Index()
         {
@@ -147,17 +148,30 @@ namespace StudentRanking.Controllers
                 model.Add(rank);
             }
 
-            FacultyRankList f = new FacultyRankList
-            {
-                EGN = "12345678",
-                ProgrammeName = programmeName,
-                TotalGrade = 4.5
-            };
-            model.Add(f);
+            //FacultyRankList f = new FacultyRankList
+            //{
+            //    EGN = "12345678",
+            //    ProgrammeName = programmeName,
+            //    TotalGrade = 4.5
+            //};
+            //model.Add(f);
 
             ViewData["result"] = model;
             
             return PartialView("_ProgrammeRankListTable", model);
+        }
+
+
+        [HttpPost]
+        public ActionResult algoStart()
+        {
+            //Algo start
+
+
+
+            //return RedirectToAction("Index", "StudentRankingInformation");
+            var redirectUrl = new UrlHelper(Request.RequestContext).Action("Index", "ProgrammeRankList");
+            return Json(new { Url = redirectUrl });
         }
 
     }

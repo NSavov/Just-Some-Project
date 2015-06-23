@@ -4,54 +4,75 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Детайли</h2>
 
 <fieldset>
     <legend>Student</legend>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.FirstName)
+         <h4>Първо име</h4>
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.FirstName)
     </div>
+    <br/>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.LastName)
+        <h4>Фамилия</h4>
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.LastName)
     </div>
+    <br/>
+
 
     <div class="editor-label">
-        @Html.DisplayNameFor(model => model.EGN)
+        <h4>ЕГН</h4>
     </div>
     <div class="editor-field">
         @Html.DisplayFor(model => model.EGN)
     </div>
+    <br>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Email)
+        <h4>Имейл</h4>
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Email)
     </div>
+    <br>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Gender)
+        <h4>Пол</h4>
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Gender)
+        @if ((bool)Model.Gender)
+        {
+            <label>Мъж</label>
+        }
+        else
+        {
+            <label>Жена</label>
+        }
     </div>
+    <br>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.IsEnrolled)
+        <h4>Записан</h4>
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.IsEnrolled)
+        @if ((bool)Model.IsEnrolled)
+        {
+            <label>Да</label>
+        }
+        else
+        {
+            <label>Не</label>
+        }
     </div>
+    <br>
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.EGN }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Редактиране", "Edit", new { id=Model.EGN }) |
+    @Html.ActionLink("Назад към списъка", "Index")
 </p>

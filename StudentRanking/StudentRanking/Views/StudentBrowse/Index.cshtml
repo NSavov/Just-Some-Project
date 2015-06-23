@@ -4,7 +4,6 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
 
 <style>
     table, th, td {
@@ -18,37 +17,37 @@
 </style>
 
 
-<h3>Search by EGN</h3>
+<h3>Търсене по ЕГН</h3>
 
 
 @using (Html.BeginForm("Details", "StudentBrowse"))
 {
     @Html.TextBox("id")
-    <input type="submit" value="Search" />
+    <input type="submit" value="Търсене" />
 }
 
         <p>
-            @Html.ActionLink("Create New", "Create")
+            @Html.ActionLink("Добавяне на студент", "Create")
         </p>
         <table>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.FirstName)
+                    Първо име
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.LastName)
+                    Фамилия
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.EGN)
+                    ЕГН
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Email)
+                    Имейл
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Gender)
+                    Пол
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.IsEnrolled)
+                    Записан
                 </th>
                 <th></th>
             </tr>
@@ -68,17 +67,17 @@
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
                 <td>
-                    <label>@(((bool)item.Gender)?"Male":"Female")</label>
+                    <label>@(((bool)item.Gender)?"Мъж":"Жена")</label>
                     <!--Html.DisplayFor(modelItem => ((bool)item.Gender)? "Male" : "Female")-->
                 </td>
                 <td>
-                    <label>@(((bool)item.IsEnrolled) ? "Yes" : "No")</label>
+                    <label>@(((bool)item.IsEnrolled) ? "Да" : "Не")</label>
                    <!-- Html.DisplayFor(modelItem => item.IsEnrolled)-->
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id=item.EGN }) |
-                    @Html.ActionLink("Details", "Details", new { id=item.EGN }) |
-                    @Html.ActionLink("Delete", "Delete", new { id=item.EGN })
+                    @Html.ActionLink("Редактиране", "Edit", new { id=item.EGN }) |
+                    @Html.ActionLink("Детайли", "Details", new { id=item.EGN }) |
+                    @Html.ActionLink("Изтриване", "Delete", new { id=item.EGN })
                 </td>
             </tr>
 }

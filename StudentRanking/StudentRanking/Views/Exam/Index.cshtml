@@ -45,16 +45,13 @@
 </style>
 
 
-
-<h2>Index</h2>
-
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Добавяне на оценка", "Create")
 </p>
 
 <label>Въведете ЕГН-то на студента</label>
 @Html.TextBox("egn")
-<input type="submit" value="Submit" onclick="javascript:SubmitClick()" />
+<input type="submit" value="Потвърди" onclick="javascript:SubmitClick()" />
 
 <div id="resultTable">
     @Html.Partial("_StudentExamsGrades", Model)

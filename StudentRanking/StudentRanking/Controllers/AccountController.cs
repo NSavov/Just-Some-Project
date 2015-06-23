@@ -97,7 +97,8 @@ namespace StudentRanking.Controllers
         //
         // GET: /Account/RegisterAdmin
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
+        [Authorize(Users = "Admin")]
         public ActionResult RegisterAdmin()
         {
             return View();
@@ -113,7 +114,8 @@ namespace StudentRanking.Controllers
         // POST: /Account/RegisterAdmin
 
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
+        [Authorize(Users = "Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult RegisterAdmin(RegisterAdminModel model)
         {
@@ -198,6 +200,7 @@ namespace StudentRanking.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Manage(LocalPasswordModel model)
         {
+            
             bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             ViewBag.HasLocalPassword = hasLocalAccount;
             ViewBag.ReturnUrl = Url.Action("Manage");

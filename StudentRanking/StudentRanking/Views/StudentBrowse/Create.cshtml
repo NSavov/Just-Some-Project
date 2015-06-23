@@ -4,7 +4,7 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>Добавяне на студент</h2>
 
 @using (Html.BeginForm())
 {
@@ -15,7 +15,7 @@
         <legend>Student</legend>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.FirstName)
+            <label>Първо име</label>
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.FirstName)
@@ -23,7 +23,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.LastName)
+            <label>Фамилия</label>
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.LastName)
@@ -31,7 +31,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.EGN)
+            <label>ЕГН</label>
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.EGN)
@@ -39,7 +39,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Email)
+            <label>Имейл</label>
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.Email)
@@ -47,26 +47,26 @@
         </div>
 
         <div class="editor-field">
-            <label>Gender</label>
+            <label>Пол</label>
         </div>
 
         <div class="editor-field">
             <label style="font-size: 1.1em;float:left;margin-right:50px">
                 @Html.RadioButtonFor(model => model.Gender, true,
                               new { style = "border: 1px solid #e2e2e2;margin: 5px 0 6px 0;padding: 5px;width: 14px" })
-                Male
+                Мъж
             </label>
 
             <label style="font-size: 1.1em">
                 @Html.RadioButtonFor(model => model.Gender, false,
                               new { style = "border: 1px solid #e2e2e2;margin: 5px 0 6px 0;padding: 5px;width: 14px" })
-                Female
+                Жена
             </label>
             @Html.ValidationMessageFor(model => model.Gender)
         </div>
 
         <div class="editor-field">
-            <label>Password</label>
+            <label>Парола</label>
         </div>
 
         <div>
@@ -74,13 +74,13 @@
         </div>
 
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="Добавяне" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Назад към списъка", "Index")
 </div>
 
 @section Scripts {

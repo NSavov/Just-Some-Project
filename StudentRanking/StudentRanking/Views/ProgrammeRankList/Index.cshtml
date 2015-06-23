@@ -5,6 +5,7 @@
     bool isMainAdmin = (bool)ViewData["mainAdmin"];
     bool isRankListPublished = (bool)ViewData["isRankListPublished"];
     bool isRankingDate = (bool)ViewData["isRankingDate"];
+    
 }
 
 <style>
@@ -67,10 +68,16 @@
             });
         };
 
-
-
         function Publish() {
-            
+            $.ajax({
+
+                type: 'post',
+                url: "/ProgrammeRankList/algoStart",
+                success: function (result) {
+                    window.location.href = result.Url;
+                }
+
+            });
         };
     </script>
 }
