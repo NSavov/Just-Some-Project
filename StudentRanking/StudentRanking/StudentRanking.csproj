@@ -188,7 +188,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProgrammeRankListController.cs" />
     <Compile Include="Controllers\ProgrammeRulesController.cs" />
-    <Compile Include="Controllers\CampaignDatesController.cs" />
+    <Compile Include="Controllers\CampaignRankingDatesController.cs" />
     <Compile Include="Controllers\StudentBrowseController.cs" />
     <Compile Include="Controllers\StudentPreferencesController.cs" />
     <Compile Include="Controllers\StudentRankingInformationController.cs" />

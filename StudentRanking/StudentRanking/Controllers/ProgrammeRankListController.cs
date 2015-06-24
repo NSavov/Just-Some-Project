@@ -55,8 +55,10 @@ namespace StudentRanking.Controllers
         public ActionResult Index()
         {
 
+            RankingContext db = new RankingContext();
+            QueryManager mng = new QueryManager(db);
 
-            DateTime end = Convert.ToDateTime(ConfigurationManager.AppSettings["PublishFirstRankingDate"]);
+            DateTime end = Convert.ToDateTime(mng.getCampaignDates().FirstRankingDate);
 
 
 
@@ -107,7 +109,11 @@ namespace StudentRanking.Controllers
             
             //проверка дали е настъпила дата за обявяване на класиране
 
-            DateTime end = Convert.ToDateTime(ConfigurationManager.AppSettings["PublishFirstRankingDate"]);
+            RankingContext db = new RankingContext();
+            QueryManager mng = new QueryManager(db);
+
+            DateTime end = Convert.ToDateTime(mng.getCampaignDates().FirstRankingDate);
+
             ViewData["isRankingDate"] = false;
             if (DateTime.Today >= end)
             {

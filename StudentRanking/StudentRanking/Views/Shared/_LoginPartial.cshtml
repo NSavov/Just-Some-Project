@@ -1,14 +1,19 @@
 ﻿@{
     bool isAdmin = false;
     string name = User.Identity.Name;
-    string[] roleNames = Roles.GetRolesForUser(name);
-    foreach (string role in roleNames)
+    if (name != null)
     {
-        if (role.Contains("admin"))
+
+        string[] roleNames = Roles.GetRolesForUser(name);
+        foreach (string role in roleNames)
         {
-            isAdmin = true;
-        }
+            if (role.Contains("admin"))
+            {
+                isAdmin = true;
+            }
+        } 
     }
+    
 }
 
 
