@@ -23,8 +23,5 @@ namespace StudentRanking.DataAccess
 
         [DefaultValue(0)]
         public double TotalGrade { get; set; }
-
-        [DefaultValue(false)]
-        public bool IsApproved { get; set; }
     }
 }

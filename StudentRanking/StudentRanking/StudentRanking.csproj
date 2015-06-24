@@ -193,6 +193,7 @@
     <Compile Include="Controllers\StudentPreferencesController.cs" />
     <Compile Include="Controllers\StudentRankingInformationController.cs" />
     <Compile Include="DataAccess\RankingContext.cs" />
+    <Compile Include="DataAccess\RankingDates.cs" />
     <Compile Include="Filters\IndexAttribute.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">

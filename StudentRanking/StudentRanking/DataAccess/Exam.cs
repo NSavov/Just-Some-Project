@@ -15,6 +15,7 @@ namespace StudentRanking.DataAccess
         [Key][Column(Order = 1)]
         [Required]
         public String StudentEGN{ get; set; }
+
         [Required]
         public double Grade{ get; set; }
     }
