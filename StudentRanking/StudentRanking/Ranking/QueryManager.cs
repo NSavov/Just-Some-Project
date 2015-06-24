@@ -199,5 +199,20 @@ namespace StudentRanking.Ranking
 
             return result;
         }
+
+
+        public RankingDates getCampaignDates()
+        {
+            if ( context.Dates.ToList().Count() != 0 )
+            {
+                return context.Dates.ToList().First();
+
+            }
+
+            return new RankingDates();
+
+            
+
+        }
     }
 }

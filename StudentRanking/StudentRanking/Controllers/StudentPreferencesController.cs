@@ -89,8 +89,10 @@ namespace StudentRanking.Controllers
        
             ViewData["faculties"] = faculties;
 
-            StringToDatesConverter converter = new StringToDatesConverter();
-            DateTime end = converter.getDateByString(ConfigurationManager.AppSettings["AddingPreferencesLastDate"]);
+            RankingContext db = new RankingContext();
+            QueryManager mng = new QueryManager(db);
+
+            DateTime end = Convert.ToDateTime(mng.getCampaignDates().PreferrencesLastDate);
             ViewData["isAddingPreferencesEnd"] = false;
             if (DateTime.Today > end)
             {
@@ -126,11 +128,12 @@ namespace StudentRanking.Controllers
             String user = User.Identity.Name;
             ViewData["userName"] = user;
 
-            String day = ConfigurationManager.AppSettings["AddingPreferencesLastDate"];
-            String[] date = day.Split('-');
-            DateTime finale = new DateTime(Convert.ToInt32(date[0]),
-                                           Convert.ToInt32(date[1]),
-                                           Convert.ToInt32(date[2]));
+
+            RankingContext db = new RankingContext();
+            QueryManager mng = new QueryManager(db);
+
+            DateTime finale = Convert.ToDateTime(mng.getCampaignDates().PreferrencesLastDate); 
+            
 
             ViewData["isAddingPreferencesEnd"] = true;
 

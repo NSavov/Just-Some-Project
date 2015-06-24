@@ -3,8 +3,15 @@
     ViewBag.Title = "FacultyRankList";
     var res = ViewData["result"] as List<StudentRanking.DataAccess.FacultyRankList>;
     bool isMainAdmin = (bool)ViewData["mainAdmin"];
-    bool isRankListPublished = (bool)ViewData["isRankListPublished"];
-    bool isRankingDate = (bool)ViewData["isRankingDate"];
+    
+    bool isFirstRankListPublished = (bool)ViewData["isFirstRankListPublished"];
+    bool isFirstRankingDate = (bool)ViewData["isFirstRankingDate"];
+
+    bool isSecondRankListPublished = (bool)ViewData["isSecondRankListPublished"];
+    bool isSecondRankingDate = (bool)ViewData["isSecondRankingDate"];
+
+    bool isThirdRankListPublished = (bool)ViewData["isThirdRankListPublished"];
+    bool isThirdRankingDate = (bool)ViewData["isThirdRankingDate"];
     
 }
 
@@ -82,24 +89,27 @@
     </script>
 }
 
-@if (isRankingDate)
+
+
+
+@if (isFirstRankingDate && !isSecondRankingDate)
 {
-    if (isMainAdmin && !isRankListPublished)
+    if (isMainAdmin && !isFirstRankListPublished)
     {
-        <label>Натиснете бутона, за да публикувате класирането.</label>
+        <label>Натиснете бутона, за да публикувате първото класирането.</label>
         <input type="submit" value="Публикувайте" onclick="javascript: Publish()" />
     }
     else
     {
-        if (!isMainAdmin && !isRankListPublished)
+        if (!isMainAdmin && !isFirstRankListPublished)
         {
-            <label>Класирането не е публикувано. Само главният администратор може да публикува класирането.</label>
+            <label>Първото класирането не е публикувано. Само главният администратор може да публикува класирането.</label>
         }
         else
         {
-            if (isRankListPublished)
+            if (isFirstRankListPublished)
             {
-                <h2>Класиране по специалност</h2>
+                <h2>Първо класиране по специалност</h2>
                 <br>
                 <div><h4>Изберете факултет:</h4></div>
                 @Html.DropDownList("faculty", ViewData["faculties"] as SelectList, new { @id = "faculty" })
@@ -118,7 +128,82 @@
 }
 else
 {
-    <label>Не е настъпила датата за публикуване на класирането.</label>
+    if (!isSecondRankingDate)
+    {
+        <label>Не е настъпила датата за публикуване на първото класирането.</label>
+    }
+
 }
 
 
+@if (isSecondRankingDate && !isThirdRankingDate)
+{
+    if (isMainAdmin && !isSecondRankListPublished)
+    {
+        <label>Натиснете бутона, за да публикувате второто класирането.</label>
+        <input type="submit" value="Публикувайте" onclick="javascript: Publish()" />
+    }
+    else
+    {
+        if (!isMainAdmin && !isSecondRankListPublished)
+        {
+            <label>Второто класирането не е публикувано. Само главният администратор може да публикува класирането.</label>
+        }
+        else
+        {
+            if (isSecondRankListPublished)
+            {
+                <h2>Второ класиране по специалност</h2>
+                <br>
+                <div><h4>Изберете факултет:</h4></div>
+                @Html.DropDownList("faculty", ViewData["faculties"] as SelectList, new { @id = "faculty" })
+                <select id="programmeName"></select>
+                <input type="submit" value="Потвърдете" onclick="javascript:SubmitClick()" />
+
+                <div id="resultTable">
+                    @Html.Partial("_ProgrammeRankListTable", Model)
+                </div>
+            }
+        }
+
+    }
+
+
+}
+
+
+
+@if (isThirdRankingDate)
+{
+    if (isMainAdmin && !isThirdRankListPublished)
+    {
+        <label>Натиснете бутона, за да публикувате третото класирането.</label>
+        <input type="submit" value="Публикувайте" onclick="javascript: Publish()" />
+    }
+    else
+    {
+        if (!isMainAdmin && !isThirdRankListPublished)
+        {
+            <label>Третото класирането не е публикувано. Само главният администратор може да публикува класирането.</label>
+        }
+        else
+        {
+            if (isThirdRankListPublished)
+            {
+                <h2>Трето класиране по специалност</h2>
+                <br>
+                <div><h4>Изберете факултет:</h4></div>
+                @Html.DropDownList("faculty", ViewData["faculties"] as SelectList, new { @id = "faculty" })
+                <select id="programmeName"></select>
+                <input type="submit" value="Потвърдете" onclick="javascript:SubmitClick()" />
+
+                <div id="resultTable">
+                    @Html.Partial("_ProgrammeRankListTable", Model)
+                </div>
+            }
+        }
+
+    }
+
+
+}

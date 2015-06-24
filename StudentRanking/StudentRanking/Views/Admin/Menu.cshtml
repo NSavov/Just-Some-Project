@@ -32,6 +32,9 @@
                 @if (User.Identity.Name == "Admin")
                 {
                     <li>
+                        @Html.ActionLink("Определяне срокове на кампанията", "Index", "CampaignRankingDates")
+                    </li>
+                    <li>
                         @Html.ActionLink("Регистриране на администратори", "RegisterAdmin", "Account")
                     </li>
                 }

@@ -12,6 +12,7 @@ using StudentRanking.Filters;
 using StudentRanking.Models;
 using StudentRanking.DataAccess;
 using System.Configuration;
+using StudentRanking.Ranking;
 
 namespace StudentRanking.Controllers
 {
@@ -44,6 +45,12 @@ namespace StudentRanking.Controllers
             if ( ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe)
                  && model.UserName == "Admin" )
             {
+                RankingContext db = new RankingContext();
+
+                if (db.Dates.ToList().Count() == 0)
+                {
+                    return RedirectToAction("index", "CampaignRankingDates");
+                }
                 return RedirectToAction("Menu", "Admin");
             }
             
@@ -65,8 +72,9 @@ namespace StudentRanking.Controllers
 
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
-                StringToDatesConverter converter = new StringToDatesConverter();
-                DateTime end = converter.getDateByString(ConfigurationManager.AppSettings["PublishFirstRankingDate"]);
+                RankingContext db = new RankingContext();
+                QueryManager mng = new QueryManager(db);
+                DateTime end = Convert.ToDateTime(mng.getCampaignDates().FirstRankingDate);
                 if (DateTime.Today > end)
                 {
                     return RedirectToAction("Index", "StudentRankingInformation");
@@ -97,8 +105,8 @@ namespace StudentRanking.Controllers
         //
         // GET: /Account/RegisterAdmin
 
-        //[AllowAnonymous]
-        [Authorize(Users = "Admin")]
+        [AllowAnonymous]
+       // [Authorize(Users = "Admin")]
         public ActionResult RegisterAdmin()
         {
             return View();
@@ -114,8 +122,8 @@ namespace StudentRanking.Controllers
         // POST: /Account/RegisterAdmin
 
         [HttpPost]
-        //[AllowAnonymous]
-        [Authorize(Users = "Admin")]
+        [AllowAnonymous]
+        //[Authorize(Users = "Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult RegisterAdmin(RegisterAdminModel model)
         {

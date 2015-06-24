@@ -4,6 +4,7 @@ using StudentRanking.Ranking;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -55,18 +56,60 @@ namespace StudentRanking.Controllers
         public ActionResult Index()
         {
 
-            StringToDatesConverter converter = new StringToDatesConverter();
-            DateTime end = converter.getDateByString(ConfigurationManager.AppSettings["PublishFirstRankingDate"]);
+            RankingContext db = new RankingContext();
+            QueryManager mng = new QueryManager(db);
+
+            
 
 
 
             String user = User.Identity.Name;
 
-            ViewData["isRankingDate"] = false;
-            if (DateTime.Today >= end)
+            String s = mng.getCampaignDates().FirstRankingDate;
+            // класиране първи етап - дати
+            DateTime first = Convert.ToDateTime(mng.getCampaignDates().FirstRankingDate);
+            ViewData["isFirstRankingDate"] = false;
+            if (DateTime.Today >= first)
             {
-                ViewData["isRankingDate"] = true;
+                ViewData["isFirstRankingDate"] = true;
             }
+
+            ViewData["isFirstRankListPublished"] = false;
+            if (db.Dates.ToList().Last().FirstRankingDate == "true")
+            {
+                ViewData["isFirstRankListPublished"] = true;
+            }
+
+
+            // класиране втори етап - дати
+            DateTime second = Convert.ToDateTime(mng.getCampaignDates().SecondRankingDate);
+            ViewData["isSecondRankingDate"] = false;
+            if (DateTime.Today >= second)
+            {
+                ViewData["isSecondRankingDate"] = true;
+            }
+
+            ViewData["isSecondRankListPublished"] = false;
+            if (db.Dates.ToList().Last().FirstRankingDate == "true")
+            {
+                ViewData["isSecondRankListPublished"] = true;
+            }
+
+            // класиране трети етап - дати
+            DateTime third = Convert.ToDateTime(mng.getCampaignDates().ThirdRankingDate);
+            ViewData["isThirdRankingDate"] = false;
+            if (DateTime.Today >= third)
+            {
+                ViewData["isThirdRankingDate"] = true;
+            }
+
+            ViewData["isThirdRankListPublished"] = false;
+            if (db.Dates.ToList().Last().FirstRankingDate == "true")
+            {
+                ViewData["isThirdRankListPublished"] = true;
+            }
+
+
 
             ViewData["mainAdmin"] = false;
             if (user == "Admin")
@@ -74,16 +117,9 @@ namespace StudentRanking.Controllers
                 ViewData["mainAdmin"] = true;
             }
 
-            bool hasFacultyRankListEntries = (db.FacultyRankLists.ToList().Count() != 0) ? true : false;
-
-            ViewData["isRankListPublished"] = false;
-            if (hasFacultyRankListEntries)
-            {
-                ViewData["isRankListPublished"] = true;
-            }
-            
-
             ViewData["userName"] = user;
+
+
 
             List<String> l = programmes.Keys.ToList<string>();
             l.Insert(0, "Please Select");
@@ -106,21 +142,54 @@ namespace StudentRanking.Controllers
             ViewData["faculties"] = faculties;
             
             //проверка дали е настъпила дата за обявяване на класиране
-            StringToDatesConverter converter = new StringToDatesConverter();
-            DateTime end = converter.getDateByString(ConfigurationManager.AppSettings["PublishFirstRankingDate"]);
-            ViewData["isRankingDate"] = false;
-            if (DateTime.Today >= end)
+
+            RankingContext db = new RankingContext();
+            QueryManager mng = new QueryManager(db);
+
+            // класиране първи етап - дати
+            DateTime first = Convert.ToDateTime(mng.getCampaignDates().FirstRankingDate);
+            ViewData["isFirstRankingDate"] = false;
+            if (DateTime.Today >= first)
             {
-                ViewData["isRankingDate"] = true;
+                ViewData["isFirstRankingDate"] = true;
             }
 
-            //проверка дали класирането е публикувано
-            bool hasFacultyRankListEntries = (db.FacultyRankLists.ToList().Count() != 0) ? true : false;
-            ViewData["isRankListPublished"] = false;
-            if (hasFacultyRankListEntries)
+            ViewData["isFirstRankListPublished"] = false;
+            if (db.Dates.ToList().Last().FirstRankingDate == "true")
             {
-                ViewData["isRankListPublished"] = true;
+                ViewData["isFirstRankListPublished"] = true;
             }
+
+
+            // класиране втори етап - дати
+            DateTime second = Convert.ToDateTime(mng.getCampaignDates().SecondRankingDate);
+            ViewData["isSecondRankingDate"] = false;
+            if (DateTime.Today >= second)
+            {
+                ViewData["isSecondRankingDate"] = true;
+            }
+
+            ViewData["isSecondRankListPublished"] = false;
+            if (db.Dates.ToList().Last().FirstRankingDate == "true")
+            {
+                ViewData["isSecondRankListPublished"] = true;
+            }
+
+            // класиране трети етап - дати
+            DateTime third = Convert.ToDateTime(mng.getCampaignDates().ThirdRankingDate);
+            ViewData["isThirdRankingDate"] = false;
+            if (DateTime.Today >= third)
+            {
+                ViewData["isThirdRankingDate"] = true;
+            }
+
+            ViewData["isThirdRankListPublished"] = false;
+            if (db.Dates.ToList().Last().FirstRankingDate == "true")
+            {
+                ViewData["isThirdRankListPublished"] = true;
+            }
+
+
 
             //вземане на потребителското име на потребителя
             String user = User.Identity.Name;
@@ -166,8 +235,38 @@ namespace StudentRanking.Controllers
         public ActionResult algoStart()
         {
             //Algo start
+            Ranker ranker = new Ranker(db);
+            ranker.start();
 
+            RankingDates dates = db.Dates.ToList().Last();
 
+            
+            if (dates.FirstRankingDate == "false")
+            {
+                dates.FirstRankingDate = "true";
+                db.Entry(dates).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            else
+            {
+                if (dates.FirstRankingDate == "true" && dates.SecondRankingDate == "false")
+                {
+                    dates.SecondRankingDate = "true";
+                    db.Entry(dates).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    if (dates.SecondRankingDate == "true" && dates.ThirdRankingDate == "false")
+                    {
+                        dates.ThirdRankingDate = "true";
+                        db.Entry(dates).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+
+            }
+            
 
             //return RedirectToAction("Index", "StudentRankingInformation");
             var redirectUrl = new UrlHelper(Request.RequestContext).Action("Index", "ProgrammeRankList");
