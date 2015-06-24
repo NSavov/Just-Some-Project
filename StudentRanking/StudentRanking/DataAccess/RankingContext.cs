@@ -23,7 +23,8 @@ namespace StudentRanking.DataAccess
         public DbSet<Faculty> Faculties { get; set; }
         public DbSet<FacultyRankList> FacultyRankLists { get; set; }
         public DbSet<ExamName> ExamNames { get; set; }
-        
+        public DbSet<RankingDates> Dates { get; set; } 
+
         protected void OnModelCreating(DbModelBuilder modelBuilder)
         {
             Database.SetInitializer(new IndexInitializer<DbContext>());
