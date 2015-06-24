@@ -3,9 +3,31 @@
 @{
     ViewBag.Title = "StudentRankingInformation";
     bool isEnrolled = (bool)ViewData["isEnrolled"];
-    bool isRankListPublished = (bool)ViewData["isRankListPublished"];
+    bool isFirstRankListPublished = (bool)ViewData["isFirstRankListPublished"];
+    bool isSecondRankListPublished = (bool)ViewData["isSecondRankListPublished"];
+    bool isThirdRankListPublished = (bool)ViewData["isThirdRankListPublished"];
     String enrolledProgramme = (String)ViewData["enrolledProgramme"];
     String faculty = (String)ViewData["faculty"];
+    String str = "";
+
+    if (isFirstRankListPublished && !isSecondRankListPublished)
+    {
+        str = " на първо класиране";
+    }
+    else
+    {
+        if (isSecondRankListPublished && !isThirdRankListPublished)
+        {
+            str = " на второ класиране";
+        }
+        else
+        {
+            if (isThirdRankListPublished)
+            {
+                str = "на трето класиране";
+            }
+        }
+    }
 }
 
 <style>
@@ -54,7 +76,7 @@
 
 <h2>@ViewData["userName"]</h2>
 
-@if (isRankListPublished)
+@if (isFirstRankListPublished || isSecondRankListPublished || isThirdRankListPublished)
 {
     if (isEnrolled)
     {
@@ -65,8 +87,10 @@
     else
     {
         @Html.DropDownList("programmes", ViewData["programmes"] as SelectList, new { @id = "programmes" })
+    
+        
         <input type="submit" value="Запишете се" onclick="javascript:SubmitClick()" />
-        <h2>Приети сте в следните специалности:</h2>
+        <h2>Приети сте в следните специалности @str</h2>
 
         <div id="rankingTable">
             @Html.Partial("_StudentRankingTable", Model)

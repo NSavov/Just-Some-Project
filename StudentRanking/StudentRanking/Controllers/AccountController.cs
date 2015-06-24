@@ -133,7 +133,7 @@ namespace StudentRanking.Controllers
                 try
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
-                    WebSecurity.Login(model.UserName, model.Password);
+                    //WebSecurity.Login(model.UserName, model.Password);
 
                     var roles = (SimpleRoleProvider)Roles.Provider;
 
@@ -145,7 +145,7 @@ namespace StudentRanking.Controllers
 
                     roles.AddUsersToRoles(new string[] { model.UserName }, new string[] { "admin" });
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("RegisterAdmin", "Account");
                 }
                 catch (MembershipCreateUserException e)
                 {
@@ -153,6 +153,7 @@ namespace StudentRanking.Controllers
                 }
             }
 
+            
             // If we got this far, something failed, redisplay form
             return View(model);
         }

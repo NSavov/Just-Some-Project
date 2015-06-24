@@ -96,7 +96,7 @@ namespace StudentRanking.Controllers
 
                 String pass = ViewBag.Password;
                 WebSecurity.CreateUserAndAccount(student.EGN, ViewBag.Password);
-                WebSecurity.Login(student.EGN, ViewBag.Password);
+                //WebSecurity.Login(student.EGN, ViewBag.Password);
 
                 //var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
                 //var message = new MailMessage();
@@ -120,21 +120,21 @@ namespace StudentRanking.Controllers
 
                 ////smtp.SendMailAsync(message);
                 //smtp.Send(message);
-
-                var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
-                MailMessage mail = new MailMessage();
-                mail.To.Add(new MailAddress("evgenistefchov@abv.bg"));
-                mail.From = new MailAddress("flood1@abv.bg");
-                mail.Subject = "Your email subject";
-                mail.Body = string.Format(body, "admin",
-                                                   "flood1@abv.bg", newPassword); ;
-                mail.IsBodyHtml = true;
-                SmtpClient smtp = new SmtpClient("smtp.abv.bg", 587);
-                smtp.EnableSsl = true;
-                smtp.UseDefaultCredentials = false;
-                smtp.Credentials =
-                     new System.Net.NetworkCredential("flood1@abv.bg", "123456789");
-                smtp.Send(mail);
+//this
+                //var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
+                //MailMessage mail = new MailMessage();
+                //mail.To.Add(new MailAddress("evgenistefchov@abv.bg"));
+                //mail.From = new MailAddress("flood1@abv.bg");
+                //mail.Subject = "Your email subject";
+                //mail.Body = string.Format(body, "admin",
+                //                                   "flood1@abv.bg", newPassword); ;
+                //mail.IsBodyHtml = true;
+                //SmtpClient smtp = new SmtpClient("smtp.abv.bg", 587);
+                //smtp.EnableSsl = true;
+                //smtp.UseDefaultCredentials = false;
+                //smtp.Credentials =
+                //     new System.Net.NetworkCredential("flood1@abv.bg", "123456789");
+                //smtp.Send(mail);
 
 
 
@@ -158,7 +158,8 @@ namespace StudentRanking.Controllers
                 roles.AddUsersToRoles(new string[] { student.EGN }, new string[] { "student" });
             }
 
-            return View(student);
+            return RedirectToAction("Create", "StudentBrowse");
+            //return View(student);
         }
 
         //
