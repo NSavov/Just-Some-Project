@@ -65,8 +65,8 @@ namespace StudentRanking.Controllers
 
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
-                StringToDatesConverter converter = new StringToDatesConverter();
-                DateTime end = converter.getDateByString(ConfigurationManager.AppSettings["PublishFirstRankingDate"]);
+
+                DateTime end = Convert.ToDateTime(ConfigurationManager.AppSettings["PublishFirstRankingDate"]);
                 if (DateTime.Today > end)
                 {
                     return RedirectToAction("Index", "StudentRankingInformation");

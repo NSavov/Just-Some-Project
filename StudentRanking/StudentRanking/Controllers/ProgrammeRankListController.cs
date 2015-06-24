@@ -55,8 +55,8 @@ namespace StudentRanking.Controllers
         public ActionResult Index()
         {
 
-            StringToDatesConverter converter = new StringToDatesConverter();
-            DateTime end = converter.getDateByString(ConfigurationManager.AppSettings["PublishFirstRankingDate"]);
+
+            DateTime end = Convert.ToDateTime(ConfigurationManager.AppSettings["PublishFirstRankingDate"]);
 
 
 
@@ -106,8 +106,8 @@ namespace StudentRanking.Controllers
             ViewData["faculties"] = faculties;
             
             //проверка дали е настъпила дата за обявяване на класиране
-            StringToDatesConverter converter = new StringToDatesConverter();
-            DateTime end = converter.getDateByString(ConfigurationManager.AppSettings["PublishFirstRankingDate"]);
+
+            DateTime end = Convert.ToDateTime(ConfigurationManager.AppSettings["PublishFirstRankingDate"]);
             ViewData["isRankingDate"] = false;
             if (DateTime.Today >= end)
             {
@@ -166,7 +166,8 @@ namespace StudentRanking.Controllers
         public ActionResult algoStart()
         {
             //Algo start
-
+            Ranker ranker = new Ranker(db);
+            ranker.start();
 
 
             //return RedirectToAction("Index", "StudentRankingInformation");
