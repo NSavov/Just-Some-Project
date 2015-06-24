@@ -30,8 +30,6 @@ namespace StudentRanking.Controllers
             //Ranker ranker = new Ranker(db);
             //ranker.start();
 
-            //var query = from student in db.Students
-            //            select student.EGN;
 
             //String text = String.Empty;
 
@@ -119,7 +117,7 @@ namespace StudentRanking.Controllers
 
                 String pass = ViewBag.Password;
                 WebSecurity.CreateUserAndAccount(student.EGN, ViewBag.Password);
-                WebSecurity.Login(student.EGN, ViewBag.Password);
+                //WebSecurity.Login(student.EGN, ViewBag.Password);
 
                 //var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
                 //var message = new MailMessage();
@@ -143,7 +141,7 @@ namespace StudentRanking.Controllers
 
                 ////smtp.SendMailAsync(message);
                 //smtp.Send(message);
-
+//this
                 //var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
                 //MailMessage mail = new MailMessage();
                 //mail.To.Add(new MailAddress("evgenistefchov@abv.bg"));
@@ -181,7 +179,8 @@ namespace StudentRanking.Controllers
                 roles.AddUsersToRoles(new string[] { student.EGN }, new string[] { "student" });
             }
 
-            return View(student);
+            return RedirectToAction("Create", "StudentBrowse");
+            //return View(student);
         }
 
         //

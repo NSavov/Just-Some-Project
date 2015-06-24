@@ -84,7 +84,7 @@ namespace StudentRanking.Controllers
             {
                 db.Exams.Add(exam);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Create", "Exam");
             }
 
             return View(exam);

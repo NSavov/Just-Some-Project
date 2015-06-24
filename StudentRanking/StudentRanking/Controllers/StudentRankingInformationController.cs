@@ -73,14 +73,39 @@ namespace StudentRanking.Models
 
             ViewData["programmes"] = pr;
 
-            bool hasFacultyRankListEntries = (db.FacultyRankLists.ToList().Count() != 0 ) ? true : false;
+            //bool hasFacultyRankListEntries = (db.FacultyRankLists.ToList().Count() != 0 ) ? true : false;
 
-            ViewData["isRankListPublished"] = false;
-            if (hasFacultyRankListEntries)
+            //ViewData["isRankListPublished"] = false;
+            //if (hasFacultyRankListEntries)
+            //{
+            //    ViewData["isRankListPublished"] = true;
+            //}
+
+
+
+            QueryManager mng = new QueryManager(db);
+
+            // класиране първи етап - дати
+            ViewData["isFirstRankListPublished"] = false;
+            if (db.Dates.ToList().Last().FirstRankingDate == "true")
             {
-                ViewData["isRankListPublished"] = true;
+                ViewData["isFirstRankListPublished"] = true;
             }
 
+
+            // класиране втори етап - дати
+            ViewData["isSecondRankListPublished"] = false;
+            if (db.Dates.ToList().Last().FirstRankingDate == "true")
+            {
+                ViewData["isSecondRankListPublished"] = true;
+            }
+
+            // класиране трети етап - дати
+            ViewData["isThirdRankListPublished"] = false;
+            if (db.Dates.ToList().Last().FirstRankingDate == "true")
+            {
+                ViewData["isThirdRankListPublished"] = true;
+            }
 
             List<String> studentProgrammes = new List<String>();
             foreach (var item in studentRankList)

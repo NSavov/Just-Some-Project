@@ -161,29 +161,45 @@ namespace StudentRanking.Controllers
             QueryManager queryManager = new QueryManager(db);
 
             List<Preference> studentPreferences = queryManager.getStudentPreferences(egn);
-            
+
+            bool isPreferrenceRepeated = false;
             foreach (var preff in studentPreferences)
             {
                 String fac = db.Faculties.Find(preff.ProgrammeName).FacultyName;
                 StudentPreferences pr = new StudentPreferences { Faculty = fac, ProgrammeName = preff.ProgrammeName,
                                                                  PrefNumber = preff.PrefNumber };
+                if (faculty == fac && preff.ProgrammeName == programmeName)
+                {
+                    isPreferrenceRepeated = true;
+                }
+
                 model.Add(pr);
             }
 
-            int nextPrefenceNumber = (studentPreferences.Count() != 0) ? studentPreferences.Max(t => t.PrefNumber) + 1 : 1;
-            StudentPreferences pref = new StudentPreferences { Faculty = faculty, ProgrammeName = programmeName,
-                                                               PrefNumber = nextPrefenceNumber };
-            Preference p = new Preference
+            
+           
+            if (!isPreferrenceRepeated)
             {
-                EGN = egn,
-                PrefNumber = nextPrefenceNumber,
-                ProgrammeName = programmeName,
-                TotalGrade = 0
-            };
+                int nextPrefenceNumber = (studentPreferences.Count() != 0) ? studentPreferences.Max(t => t.PrefNumber) + 1 : 1;
+                StudentPreferences pref = new StudentPreferences
+                {
+                    Faculty = faculty,
+                    ProgrammeName = programmeName,
+                    PrefNumber = nextPrefenceNumber
+                };
+                Preference p = new Preference
+                {
+                    EGN = egn,
+                    PrefNumber = nextPrefenceNumber,
+                    ProgrammeName = programmeName,
+                    TotalGrade = 0
+                };
 
-            db.Preferences.Add(p);
-            db.SaveChanges();
-            model.Add(pref);
+                db.Preferences.Add(p);
+                db.SaveChanges();
+                model.Add(pref);
+            }
+            
             ViewData["result"] = model;
 
 
