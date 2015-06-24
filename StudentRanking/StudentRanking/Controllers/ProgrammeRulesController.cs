@@ -10,6 +10,7 @@ using StudentRanking.DataAccess;
 
 namespace StudentRanking.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class ProgrammeRulesController : Controller
     {
         private RankingContext db = new RankingContext();

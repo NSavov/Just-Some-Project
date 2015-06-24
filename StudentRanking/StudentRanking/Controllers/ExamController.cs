@@ -11,6 +11,7 @@ using StudentRanking.DataAccess;
 
 namespace StudentRanking.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class ExamController : Controller
     {
         private RankingContext db = new RankingContext();

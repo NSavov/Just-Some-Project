@@ -16,6 +16,7 @@ using System.Net.Mail;
 
 namespace StudentRanking.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class StudentBrowseController : Controller
     {
         private RankingContext db = new RankingContext();
@@ -33,12 +34,13 @@ namespace StudentRanking.Controllers
             //            select student.EGN;
 
             //String text = String.Empty;
+
+            //var roles = (SimpleRoleProvider)Roles.Provider;
+
             //foreach (String EGN in query)
             //{
-            //    Membership.DeleteUser(EGN);
+            //    roles.AddUsersToRoles(new string[] { EGN }, new string[] { "student" });
             //}
-            
-
             //foreach(String EGN in query)
             //{
             //    string newPassword = Membership.GeneratePassword(10, 0);
@@ -221,6 +223,9 @@ namespace StudentRanking.Controllers
             {
                 return HttpNotFound();
             }
+
+            Membership.DeleteUser(student.EGN);
+
             return View(student);
         }
 

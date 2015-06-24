@@ -105,8 +105,8 @@ namespace StudentRanking.Controllers
         //
         // GET: /Account/RegisterAdmin
 
-        [AllowAnonymous]
-       // [Authorize(Users = "Admin")]
+        //[AllowAnonymous]
+        [Authorize(Users = "Admin")]
         public ActionResult RegisterAdmin()
         {
             return View();
@@ -122,8 +122,8 @@ namespace StudentRanking.Controllers
         // POST: /Account/RegisterAdmin
 
         [HttpPost]
-        [AllowAnonymous]
-        //[Authorize(Users = "Admin")]
+        //[AllowAnonymous]
+        [Authorize(Users = "Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult RegisterAdmin(RegisterAdminModel model)
         {
@@ -133,7 +133,7 @@ namespace StudentRanking.Controllers
                 try
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
-                    WebSecurity.Login(model.UserName, model.Password);
+                    //WebSecurity.Login(model.UserName, model.Password);
 
                     var roles = (SimpleRoleProvider)Roles.Provider;
 
@@ -145,7 +145,7 @@ namespace StudentRanking.Controllers
 
                     roles.AddUsersToRoles(new string[] { model.UserName }, new string[] { "admin" });
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("RegisterAdmin", "Account");
                 }
                 catch (MembershipCreateUserException e)
                 {
@@ -189,6 +189,7 @@ namespace StudentRanking.Controllers
         //
         // GET: /Account/Manage
 
+        [Authorize(Roles = "admin")]
         public ActionResult Manage(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
@@ -206,6 +207,7 @@ namespace StudentRanking.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult Manage(LocalPasswordModel model)
         {
             

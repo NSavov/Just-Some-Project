@@ -63,8 +63,8 @@ namespace StudentRanking.Ranking
 
             context.FacultyRankLists.Add(rejected);
             context.SaveChanges();
-            //try
-            //{
+            try
+            {
             foreach (Preference preference in preferences)
             {
                 int quota = queryManager.getQuota(preference.ProgrammeName, (bool)student.Gender);
@@ -78,7 +78,6 @@ namespace StudentRanking.Ranking
                 }
 
 
-                //TODO: Think of a smarter way to delete students
                 if (preference.TotalGrade > minimalGrade &&
                     studentCount >= quota &&
                     ((quota >= 2 &&
@@ -120,14 +119,14 @@ namespace StudentRanking.Ranking
                 }
 
             }
-            //}
-            //catch (Exception e)
-            //{
-            //    context.FacultyRankLists.Attach(rejected);
-            //    context.FacultyRankLists.Remove(rejected);
-            //    context.SaveChanges();
-            //    throw e;
-            //}
+            }
+            catch (Exception e)
+            {
+                context.FacultyRankLists.Attach(rejected);
+                context.FacultyRankLists.Remove(rejected);
+                context.SaveChanges();
+                throw e;
+            }
         }
 
         //not used anymore

@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace StudentRanking.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class ProgrammeRankListController : Controller
     {
         private RankingContext db = new RankingContext();

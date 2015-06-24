@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace StudentRanking.Controllers
 {
+    [Authorize(Roles = "student")]
     public class StudentPreferencesController : Controller
     {
         //

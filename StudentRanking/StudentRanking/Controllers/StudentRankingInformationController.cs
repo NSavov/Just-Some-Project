@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace StudentRanking.Models
 {
+    [Authorize(Roles = "student")]
     public class StudentRankingInformationController : Controller
     {
         //

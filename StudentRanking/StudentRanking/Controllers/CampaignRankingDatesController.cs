@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace StudentRanking.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class CampaignRankingDatesController : Controller
     {
         private RankingContext db = new RankingContext();
