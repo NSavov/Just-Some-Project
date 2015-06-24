@@ -18,10 +18,11 @@ namespace StudentRanking.Controllers
 
         //
         // GET: /ProgrammeRules/
-        
-        public ProgrammeRulesController() : base()
+
+        public ProgrammeRulesController()
+            : base()
         {
-            
+
 
             var faculties = db.Faculties.ToList();
 
@@ -60,10 +61,10 @@ namespace StudentRanking.Controllers
 
             model = getProgrammeRules(programmeName);
 
-            return PartialView("_ProgrammePropertiesTable",model);
+            return PartialView("_ProgrammePropertiesTable", model);
         }
 
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public ActionResult Index()
         {
 
@@ -73,8 +74,8 @@ namespace StudentRanking.Controllers
 
             ViewData["faculties"] = faculties;
 
-            
-            return View(model );
+
+            return View(model);
         }
 
         [HttpPost]
@@ -82,8 +83,15 @@ namespace StudentRanking.Controllers
         {
             //ako crashnat int-ovete napravi si go sys string parametri
             var rule = db.ProgrammesRules.Find(programmeName);
-            if ( rule == null )
+            if (rule == null)
             {
+                db.ProgrammesRules.Add(new ProgrammeRules()
+                {
+                    FemaleCount = femaleCount,
+                    MaleCount = maleCount,
+                    ProgrammeName = programmeName
+                });
+                db.SaveChanges();
                 return;
             }
             rule.MaleCount = maleCount;
@@ -102,7 +110,7 @@ namespace StudentRanking.Controllers
                         select formula;
 
             ProgrammeRules pr = db.ProgrammesRules.Find(programmeName);
-            
+
 
             foreach (var formula in query)
             {
@@ -143,5 +151,5 @@ namespace StudentRanking.Controllers
 
     }
 
-    
+
 }

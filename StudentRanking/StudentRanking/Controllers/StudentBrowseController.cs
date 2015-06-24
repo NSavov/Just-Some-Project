@@ -26,9 +26,30 @@ namespace StudentRanking.Controllers
         public ActionResult Index(String egn = "")
         {
 
-            Ranker ranker = new Ranker(db);
-            ranker.start();
+            //Ranker ranker = new Ranker(db);
+            //ranker.start();
 
+            //var query = from student in db.Students
+            //            select student.EGN;
+
+            //String text = String.Empty;
+            //foreach (String EGN in query)
+            //{
+            //    Membership.DeleteUser(EGN);
+            //}
+            
+
+            //foreach(String EGN in query)
+            //{
+            //    string newPassword = Membership.GeneratePassword(10, 0);
+            //    Random rnd = new Random();
+            //    newPassword = Regex.Replace(newPassword, @"[^a-zA-Z0-9]", m => rnd.Next(0, 10).ToString());
+            //    ViewBag.Password = newPassword;
+            //    WebSecurity.CreateUserAndAccount(EGN, ViewBag.Password);
+            //    text += EGN + " " + newPassword + "\n";
+            //}
+
+            //System.IO.File.WriteAllText(@"D:\WriteText.txt", text);
 
             if (egn == "")
                 return View(db.Students.ToList());
@@ -121,20 +142,20 @@ namespace StudentRanking.Controllers
                 ////smtp.SendMailAsync(message);
                 //smtp.Send(message);
 
-                var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
-                MailMessage mail = new MailMessage();
-                mail.To.Add(new MailAddress("evgenistefchov@abv.bg"));
-                mail.From = new MailAddress("flood1@abv.bg");
-                mail.Subject = "Your email subject";
-                mail.Body = string.Format(body, "admin",
-                                                   "flood1@abv.bg", newPassword); ;
-                mail.IsBodyHtml = true;
-                SmtpClient smtp = new SmtpClient("smtp.abv.bg", 587);
-                smtp.EnableSsl = true;
-                smtp.UseDefaultCredentials = false;
-                smtp.Credentials =
-                     new System.Net.NetworkCredential("flood1@abv.bg", "123456789");
-                smtp.Send(mail);
+                //var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
+                //MailMessage mail = new MailMessage();
+                //mail.To.Add(new MailAddress("evgenistefchov@abv.bg"));
+                //mail.From = new MailAddress("flood1@abv.bg");
+                //mail.Subject = "Your email subject";
+                //mail.Body = string.Format(body, "admin",
+                //                                   "flood1@abv.bg", newPassword); ;
+                //mail.IsBodyHtml = true;
+                //SmtpClient smtp = new SmtpClient("smtp.abv.bg", 587);
+                //smtp.EnableSsl = true;
+                //smtp.UseDefaultCredentials = false;
+                //smtp.Credentials =
+                //     new System.Net.NetworkCredential("flood1@abv.bg", "123456789");
+                //smtp.Send(mail);
 
 
 
