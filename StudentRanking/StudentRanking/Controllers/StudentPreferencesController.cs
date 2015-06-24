@@ -172,7 +172,6 @@ namespace StudentRanking.Controllers
             Preference p = new Preference
             {
                 EGN = egn,
-                IsApproved = false,
                 PrefNumber = nextPrefenceNumber,
                 ProgrammeName = programmeName,
                 TotalGrade = 0
