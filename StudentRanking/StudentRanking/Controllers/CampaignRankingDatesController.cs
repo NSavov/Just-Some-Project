@@ -34,23 +34,37 @@ namespace StudentRanking.Controllers
                 SecondRankingDate = ranking.SecondRankingDate.ToString(),
                 ThirdRankingDate = ranking.ThirdRankingDate.ToString()
             };
-            if (db.Dates.ToList().Count() == 0)
+
+            RankingDates d = new RankingDates
+            {
+                FirstRankingDate = "false",
+                PreferrencesFirstDate = "false",
+                PreferrencesLastDate = "false",
+                SecondRankingDate = "false",
+                ThirdRankingDate = "false"
+            };
+
+            if (db.Dates.ToList().Count() != 0)
             {
                 
-                db.Dates.Add(dates);
-                db.SaveChanges();
-            }
-            else
-            {
                 RankingDates p = db.Dates.ToList().First();
+                RankingDates q = db.Dates.ToList().Last();
+
                 db.Dates.Attach(p);
                 db.Dates.Remove(p);
                 db.SaveChanges();
 
-                db.Dates.Add(dates);
+                db.Dates.Attach(q);
+                db.Dates.Remove(q);
                 db.SaveChanges();
             }
 
+
+            db.Dates.Add(dates);
+            db.SaveChanges();
+
+            db.Dates.Add(d);
+            db.SaveChanges();
 
             return RedirectToAction("Menu", "Admin");  
         }
